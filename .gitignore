@@ -1,0 +1,17 @@
+# Node.js
+node_modules/
+
+# Logs
+logs
+*.log
+
+# Directorios del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración del entorno
+.env
+
+# Otros directorios o archivos que quieras ignorar
+dist/
+build/
