@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/login.css" />
+    <link rel="stylesheet" href="../css/toast.css" />
+    <!-- <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css"> -->
+</head>
+
+<body>
+    <nav style="-webkit-app-region: drag;">
+        <img id="logo" src="../img/logo.ico" alt="my logo" height="24" width="30">
+        <p id="title">Pajalandia Launcher</p>
+        <div class="nav-buttons">
+            <button id="minimize" class="minimize"><img class="icon" id="min" alt="minimize" srcset="../img/min-w-10.png"
+                    draggable="false" /></button>
+            <button id="close" class="close"><img class="icon" id="close" alt="close" srcset="../img/close-w-10.png"
+                    draggable="false" /></button>
+        </div>
+    </nav>
+    <div class="login-box">
+        <div class="login-info">
+            </br>
+            <button onclick="loginMS(this)" id="IIiiii" class="btn">
+                <img style="vertical-align: middle; margin-right: 5px;" src="../img/microsoft.png" id="microsoft"
+                    height="20" width="20">
+                Login with Microsoft
+            </button>
+            </br>
+            </br>
+            </br>
+            <button onclick="loginOFF(this)" id="IIiiii" class="btn">
+                <img style="vertical-align: middle; margin-right: 5px;" src="../img/cloud.png" id="microsoft"
+                    height="25" width="25">
+                Offline
+            </button>
+        </div>
+    </div>
+    <script src="../js/login.js"></script>
+</body>
+
+</html>

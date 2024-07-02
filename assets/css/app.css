@@ -1,0 +1,253 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+* {
+  font-family: "Inter";
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background-color: #161616;
+  color: #ededed;
+  padding: 0;
+  margin: 0;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 0.5s;
+  overflow-y: hidden;
+}
+
+nav {
+  height: 35px;
+  display: flex;
+  align-items: center;
+  background: #1c1c1c;
+}
+
+nav>img {
+  padding-left: 10px;
+  -webkit-app-region: drag;
+}
+
+#title {
+  user-select: none;
+  font-size: 12px;
+  margin-left: 10px;
+  -webkit-app-region: drag;
+}
+
+:not(nav) {
+  -webkit-app-region: no-drag;
+}
+
+.nav-buttons {
+  margin-left: auto;
+  height: 100%;
+  display: flex;
+}
+
+.nav-buttons>button {
+  transition: background .2s ease;
+  background: #1c1c1c;
+  border: none;
+  width: 45px;
+  height: 35px;
+  margin: 0;
+  aspect-ratio: 1;
+  color: #ededed;
+  font-size: 15px;
+  user-select: none;
+}
+
+.nav-buttons>button:hover {
+  transition: .2s ease;
+  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.nav-buttons>button:active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.close:hover {
+  background: #E81123 !important;
+}
+
+.close:active {
+  background: #F1707A !important;
+}
+
+.close:active .icon {
+  color: white;
+}
+
+/* --------------- */
+
+body {
+  background: url('../img/bg1.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: white;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  margin: 20px;
+  flex-direction: column;
+}
+
+.server-status {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1B1D23;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-top: 2rem;
+  text-align: center;
+  width: 32%;
+  height: 80px;
+  max-width: 600px;
+}
+
+.server-status-icon {
+  height: 90%;
+  width: 13%;
+}
+
+.server-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.server-info {
+  padding-right: 10%;
+  padding-left: 10%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.status {
+  color: rgba(18, 160, 110, 255);
+  padding-top: 5px;
+}
+
+.status-player-count {
+  min-width: 4.5rem;
+  border-radius: 10px;
+  color: white;
+  box-shadow: 0 4px 6px rgba(34, 34, 34, 0.2);
+  font-weight: bold;
+}
+
+.dot {
+  position: absolute;
+  top: 1px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  background-color: #00CC66;
+  border-radius: 50%;
+  border: 3px solid #1B1D23;
+}
+
+.player-count {
+  background: #17191d;
+  padding: 12px 10px;
+  border-radius: 5px;
+  font-size: 2rem;
+}
+
+/* .play-button {
+  background: transparent;
+  padding: 15px 30px;
+  font-size: 18px;
+  border: 1px solid white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.play-button:hover {
+  transition: .2s ease;
+  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.container>.play-button:active {
+  background: rgba(255, 255, 255, 0.2);
+} */
+
+.play-bar {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.bar,
+.text {
+  padding: 12px 35px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+}
+
+.bar {
+  background: transparent;
+}
+
+.text {
+  background: transparent;
+  margin: 0 5px;
+  font-weight: bold;
+}
+
+.text:hover {
+  transition: .2s ease;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+}
+
+.bar:hover {
+  transition: .2s ease;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+}
+
+.glow {
+  text-shadow: 0 0 5px white, 0 0 10px white;
+}
+
+/* --shadow-color: #1f2937;
+--shadow: var(--shadow-colored);
+--shadow: 0 25px 50px -12px rgba(255, 255, 255, 0.25);
+--shadow-colored: 0 25px 50px -12px var(--shadow-color);
+box-shadow: var(--shadow); */

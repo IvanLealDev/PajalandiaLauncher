@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/app.css" />
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css">
+</head>
+
+<body>
+    <nav style="-webkit-app-region: drag;">
+        <img id="logo" src="../img/logo.ico" alt="my logo" height="24" width="30">
+        <p id="title">Pajalandia Launcher</p>
+        <div class="nav-buttons">
+            <button id="minimize" class="minimize"><img class="icon" id="min" alt="minimize"
+                    srcset="../img/min-w-10.png" draggable="false" /></button>
+            <button id="close" class="close"><img class="icon" id="close" alt="close" srcset="../img/close-w-10.png"
+                    draggable="false" /></button>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="server-status">
+            <img src="../img/logo.png" alt="my logo" class="server-status-icon">
+            <div class="server-info">
+                <div class="server-name">Pajalandia</div>
+                <div class="status">Online</div>
+            </div>
+            <div class="status-player-count">
+                <div class="player-count">0</div>
+                <div class="dot"></div>
+            </div>
+        </div>
+        <div class="play-bar">
+            <div class="bar glow" onclick="oneclick(this)">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="text glow" onclick="oneclick(this)">
+                Jugar
+            </div>
+            <div class="bar glow" onclick="oneclick(this)">
+                <i class="fas fa-cog"></i>
+            </div>
+        </div>
+    </div>
+    <script src="../js/app.js"></script>
+</body>
+
+</html>

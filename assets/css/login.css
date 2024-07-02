@@ -1,0 +1,253 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+* {
+  font-family: "Inter";
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background-color: #161616;
+  color: #ededed;
+  padding: 0;
+  margin: 0;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 0.5s;
+  overflow-y: hidden;
+}
+
+nav {
+  height: 35px;
+  display: flex;
+  align-items: center;
+  background: #1c1c1c;
+}
+
+nav>img {
+  padding-left: 10px;
+  -webkit-app-region: drag;
+}
+
+#title {
+  user-select: none;
+  font-size: 12px;
+  margin-left: 10px;
+  -webkit-app-region: drag;
+}
+
+:not(nav) {
+  -webkit-app-region: no-drag;
+}
+
+.nav-buttons {
+  margin-left: auto;
+  height: 100%;
+  display: flex;
+}
+
+.nav-buttons>button {
+  transition: background .2s ease;
+  background: #1c1c1c;
+  border: none;
+  width: 45px;
+  height: 35px;
+  margin: 0;
+  aspect-ratio: 1;
+  color: #ededed;
+  font-size: 15px;
+  user-select: none;
+}
+
+.nav-buttons>button:hover {
+  transition: .2s ease;
+  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.nav-buttons>button:active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.close:hover {
+  background: #E81123 !important;
+}
+
+.close:active {
+  background: #F1707A !important;
+}
+
+.close:active .icon {
+  color: white;
+}
+
+@keyframes fadeInOpacity {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.login-box {
+  width: 350px;
+  padding: 40px;
+  position: absolute;
+  border-radius: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #191919;
+  color: white;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.textbox {
+  width: 100%;
+  overflow: hidden;
+  font-size: 20px;
+  padding: 8px 0;
+  margin: 8px 0;
+  border-bottom: 2px solid #faa81a;
+}
+
+.textbox i {
+  width: 26px;
+  float: left;
+  text-align: center;
+}
+
+.textbox input {
+  border: 0;
+  outline: 0;
+  background: none;
+  color: white;
+  font-size: 18px;
+  margin: 0 10px;
+  font-weight: bolder;
+}
+
+.btn:hover {
+  background-color: #374151;
+  color: #FFFFFF;
+  transition: all 300ms;
+}
+
+.button {
+  background: #faa81a;
+  color: #FFFFFF;
+  border: 0;
+  outline: 0;
+  position: relative;
+  border-radius: 8px;
+  cursor: pointer;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+}
+
+.button:hover {
+  background: #ebb559;
+}
+
+#LoginMojang {
+  width: 85%;
+  padding: 10px;
+  font-weight: bolder;
+}
+
+#LoginMicrosoft {
+  width: 37px;
+  height: 37px;
+  top: 5px;
+  padding: 8px;
+  left: 4px;
+}
+
+.buttonText {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+.buttonLoading .buttonText {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.buttonLoading::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  border: 4px solid transparent;
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: button-loading-spinner 1s ease infinite;
+}
+
+.buttonLoading {
+  color: transparent !important;
+}
+
+.buttonLoading>* {
+  display: none;
+}
+
+.login-info {
+  border-left: 5px solid #faa81a;
+  width: 300px;
+  height: 150px;
+  padding: 0px 17px;
+}
+
+.login-info>button {
+  background: #faa81a;
+  color: white;
+  border: 0;
+  outline: 0;
+  position: relative;
+  border-radius: 8px;
+  cursor: pointer;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  width: 100%;
+  height: 40px;
+  font-size: 16px;
+}
+
+@keyframes button-loading-spinner {
+  from {
+    transform: rotate(0turn);
+  }
+
+  to {
+    transform: rotate(1turn);
+  }
+}
