@@ -40,7 +40,7 @@ nav {
   height: 35px;
   display: flex;
   align-items: center;
-  background: #1c1c1c;
+  background: transparent;
 }
 
 nav>img {
@@ -67,7 +67,7 @@ nav>img {
 
 .nav-buttons>button {
   transition: background .2s ease;
-  background: #1c1c1c;
+  background: transparent;
   border: none;
   width: 45px;
   height: 35px;
