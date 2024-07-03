@@ -28,3 +28,8 @@ ipcRenderer.on('LoginFailed', (event, error) => {
     console.error('Login failed:', error);
     // Manejar el error del inicio de sesión.
 });
+
+// Cuando el usuario hace clic en el botón de Offline.
+function openLoginWindow() {
+    ipcRenderer.send('open-login-window');
+}
