@@ -7,10 +7,10 @@ const { Client } = require('minecraft-launcher-core');
 app.whenReady().then(() => createWindow());
 
 // Variables globales
-const launcher = new Client();
-let userAuth;
 let mainWindow;
 let loginWindow;
+const launcher = new Client();
+let userAuth;
 
 // Ventana splash
 function ShowApp() {
@@ -124,11 +124,19 @@ ipcMain.on('play', async (event) => {
             max: "6G",
             min: "1G",
         },
+        javaPath: path.join(`${app.getPath('appData')}/.minecraft/jdk-21.0.2/bin/javaw.exe`), // Ruta del javaw.exe para evitar abrir la consola
     };
 
     launcher.launch(opts);
     launcher.on('debug', (e) => console.log(e));
     launcher.on('data', (e) => console.log(e));
+
+    // Cerrar la ventana de Electron después de iniciar Minecraft
+    setTimeout(() => {
+        console.log('Cerrando el lanzador después de 10 segundos...');
+        mainWindow.close();
+        app.quit();
+    }, 10000); // Cerrar después de 10 segundos (10000 milisegundos)
 });
 
 // Botones de Cerrar y minimizar
