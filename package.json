@@ -18,6 +18,8 @@
     "custom-electron-titlebar": "^4.2.8",
     "glob": "^10.4.2",
     "izitoast": "^1.4.0",
-    "msmc": "^5.0.5"
+    "minecraft-launcher-core": "^3.18.1",
+    "msmc": "^5.0.5",
+    "uuid": "^10.0.0"
   }
 }

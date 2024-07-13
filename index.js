@@ -2,10 +2,13 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const { Auth, lexicon } = require('msmc');
+const { Client } = require('minecraft-launcher-core');
 
 app.whenReady().then(() => createWindow());
 
 // Variables globales
+const launcher = new Client();
+let userAuth;
 let mainWindow;
 let loginWindow;
 
@@ -40,7 +43,7 @@ function createWindow() {
     // mainWindow.setMenuBarVisibility(false);
 
     // Dev Tools
-    // mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
 
     // Creación de la pantalla de bienvenida.
     splash = new BrowserWindow({
@@ -58,16 +61,15 @@ function createWindow() {
 
     // Login Microsoft.
     ipcMain.on('LoginMicrosoft', async (event) => {
-        const msmc = new Auth('select_account');
-        msmc
+        const msmcInstance = new Auth('select_account'); // Inicialización de msmc
+        msmcInstance
             .on('load', console.log)
             .launch('electron')
             .then(async (e) => {
                 const t = await e.getMinecraft();
                 console.log(t.mclc());
-                const a = await t.refresh(true);
-                console.log(t.mclc());
-                event.sender.send('LoginSuccess', t.mclc());
+                userAuth = t.mclc(); // Almacenar los datos de autenticación del usuario
+                event.sender.send('LoginSuccess', userAuth);
                 mainWindow.loadURL(path.join(__dirname, 'assets/html/app.html'));
             })
             .catch((e) => {
@@ -102,6 +104,32 @@ function createLoginWindow() {
         loginWindow = null;
     });
 }
+
+// Lanzar Minecraft
+ipcMain.on('play', async (event) => {
+    if (!userAuth) {
+        console.error("User is not authenticated");
+        return;
+    }
+
+    let opts = {
+        authorization: userAuth,
+        root: `${app.getPath('appData')}/.minecraft/`,
+        version: {
+            number: "1.21",
+            type: "release",
+            custom: "fabric-loader-0.15.11-1.21"  // Custom version to launch Fabric
+        },
+        memory: {
+            max: "6G",
+            min: "1G",
+        },
+    };
+
+    launcher.launch(opts);
+    launcher.on('debug', (e) => console.log(e));
+    launcher.on('data', (e) => console.log(e));
+});
 
 // Botones de Cerrar y minimizar
 ipcMain.on("manualMinimize", () => {

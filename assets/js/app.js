@@ -12,3 +12,9 @@ document.querySelector("#minimize").addEventListener("click", () => {
 document.querySelector("#close").addEventListener("click", () => {
     ipc.send("manualClose");
 });
+
+// Cuando el usuario hace clic en el botón de Jugar.
+document.getElementById('launchButton').addEventListener('click', () => {
+    ipcRenderer.send('play');
+    console.log("run");
+});
