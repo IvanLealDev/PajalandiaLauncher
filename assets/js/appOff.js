@@ -20,8 +20,4 @@ let username = localStorage.getItem('username');
 document.getElementById('launchButton').addEventListener('click', () => {
     ipcRenderer.send('launch-game', username);
     console.log("run");
-    // Cerrar la ventana de Electron después de lanzar Minecraft
-    setTimeout(() => {
-        window.close();
-    }, 1000);
 });

@@ -19,9 +19,6 @@ ipcRenderer.on('login-response', (event, response) => {
     if (response === 'success') {
         loginMessage.style.color = 'green';
         loginMessage.textContent = 'Login successful!';
-        setTimeout(() => {
-            window.close();
-        }, 500);
     } else {
         loginMessage.style.color = 'red';
         loginMessage.textContent = 'Usuario o contraseña incorrectos.';
