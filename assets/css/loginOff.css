@@ -4,6 +4,7 @@
 * {
     font-family: "Inter";
     vertical-align: baseline;
+    background-color: #161616;
 }
 
 *,
@@ -21,9 +22,9 @@
 }
 
 .modal-content {
-    background-color: #fefefe;
+    color: white;
     margin: 15% auto;
     padding: 20px;
-    border: 1px solid #888;
+    border: 2px solid #888;
     width: 80%; 
 }

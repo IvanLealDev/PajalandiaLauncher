@@ -3,14 +3,16 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const { Auth, lexicon } = require('msmc');
 const { Client } = require('minecraft-launcher-core');
+const { Launcher } = require('adlauncher-core');
 
 app.whenReady().then(() => createWindow());
 
 // Variables globales
+const launcherOff = new Launcher();
+const launcherOn = new Client();
+let userAuth;
 let mainWindow;
 let loginWindow;
-const launcher = new Client();
-let userAuth;
 
 // Ventana splash
 function ShowApp() {
@@ -43,7 +45,7 @@ function createWindow() {
     // mainWindow.setMenuBarVisibility(false);
 
     // Dev Tools
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
 
     // Creación de la pantalla de bienvenida.
     splash = new BrowserWindow({
@@ -105,7 +107,7 @@ function createLoginWindow() {
     });
 }
 
-// Lanzar Minecraft
+// Lanzar Minecraft Online
 ipcMain.on('play', async (event) => {
     if (!userAuth) {
         console.error("User is not authenticated");
@@ -127,9 +129,9 @@ ipcMain.on('play', async (event) => {
         javaPath: path.join(`${app.getPath('appData')}/.minecraft/jdk-21.0.2/bin/javaw.exe`), // Ruta del javaw.exe para evitar abrir la consola
     };
 
-    launcher.launch(opts);
-    launcher.on('debug', (e) => console.log(e));
-    launcher.on('data', (e) => console.log(e));
+    launcherOn.launch(opts);
+    launcherOn.on('debug', (e) => console.log(e));
+    launcherOn.on('data', (e) => console.log(e));
 
     // Cerrar la ventana de Electron después de iniciar Minecraft
     setTimeout(() => {
@@ -162,12 +164,35 @@ ipcMain.on('open-login-window', () => {
     }
 });
 
+// Lanzar Minecraft Offline
+ipcMain.on('launch-game', (event, username) => {
+    const launchOptions = {
+        username: username, // Utiliza el nombre de usuario recibido
+        version: 'fabric-loader-0.15.11-1.21', // Ingresa la versión de Fabric
+        gameDirectory: `C:/Users/Harry/AppData/Roaming/.minecraft`, // Ingresa el directorio donde tienes descargado Minecraft
+        memory: {
+            // Define la memoria que quieras usar
+            min: '1G', // Mínimo de memoria
+            max: '6G', // Máximo de memoria
+        },
+        java: 'C:/Users/Harry/AppData/Roaming/.minecraft/jdk-21.0.2/bin/java.exe', // Ubicación exacta del archivo java.exe (OPCIONAL)
+        java8: 'C:/Program Files/Java/jre-1.8/bin/java.exe', // Ubicación exacta del archivo java.exe v8 (OPCIONAL)
+    };
+
+    launcherOff.launch(launchOptions).then(() => {
+        console.log('Minecraft lanzado con éxito');
+        // No cerrar la aplicación de Electron cuando Minecraft se lanza
+    }).catch(err => {
+        console.error('Error al lanzar Minecraft:', err);
+    });
+});
+
 // LoginOff
 ipcMain.on('login-attempt', (event, username, password) => {
-    if (username === "TangaHD" && password === "123") {
+    if ((username === "TangaHD" && password === "123") || (username === "FernandezATR" && password === "234")) {
         event.sender.send('login-response', 'success');
-        loginWindow.close();
-        mainWindow.loadURL(path.join(__dirname, 'assets/html/app.html'));
+        if (loginWindow) loginWindow.close();
+        mainWindow.loadURL(path.join(__dirname, 'assets/html/appOff.html'));
     } else {
         event.sender.send('login-response', 'failure');
     }
