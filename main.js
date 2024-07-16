@@ -8,6 +8,7 @@ app.whenReady().then(() => createWindow());
 
 // Variables globales
 const launcher = new Client();
+let loggedInUsername = '';
 let userAuth;
 let mainWindow;
 
@@ -81,14 +82,18 @@ function createWindow() {
 // Obtener UUID según el nombre de usuario
 function getUUID(username) {
     const users = {
-        "TangaHD": "c0a81a7c-34af-412e-b101-ec16e2133d3c",
+        "SDGames": "8bfe6d5b-80ca-4ff9-8c2c-c8fdbb1b872b",
         "FernandezATR": "987e6543-b21a-32d1-c456-789012345678"
     };
-    return users[username] || '00000000-0000-0000-0000-000000000000';
+    const uuid = users[username] || '00000000-0000-0000-0000-000000000000';
+    console.log(`UUID for ${username}: ${uuid}`);
+    return uuid;
 }
 
 // Lanzar Minecraft
-ipcMain.on('play', async (event, username) => {
+ipcMain.on('play', async (event) => {
+    const username = loggedInUsername;  // Obtener el nombre de usuario guardado
+    console.log(`Launching game for username: ${username}`);
     if (!userAuth) {
         // Si no hay datos de autenticación, usar modo offline
         console.warn("User is not authenticated, launching in offline mode");
@@ -97,8 +102,8 @@ ipcMain.on('play', async (event, username) => {
             authorization: {
                 access_token: '',
                 client_token: '',
-                uuid: getUUID(username),
-                name: username, // Nombre de usuario offline
+                uuid: getUUID(username),  // Obtener el UUID según el nombre de usuario
+                name: username,  // Nombre de usuario offline
                 user_properties: '{}'
             },
             root: `${app.getPath('appData')}/.minecraft/`,
@@ -114,6 +119,7 @@ ipcMain.on('play', async (event, username) => {
             javaPath: path.join(`${app.getPath('appData')}/.minecraft/jdk-21.0.2/bin/javaw.exe`), // Ruta del javaw.exe para evitar abrir la consola
         };
 
+        console.log('Launching options:', optsOffline);
         launcher.launch(optsOffline);
     } else {
         let opts = {
@@ -152,7 +158,8 @@ ipcMain.on('open-login-window', () => {
 
 // LoginOff
 ipcMain.on('login-attempt', (event, username, password) => {
-    if ((username === "TangaHD" && password === "123") || (username === "FernandezATR" && password === "234")) {
+    if ((username === "SDGames" && password === "123") || (username === "FernandezATR" && password === "234")) {
+        loggedInUsername = username;  // Guardar el nombre de usuario
         event.sender.send('login-response', 'success');
         mainWindow.loadURL(path.join(__dirname, 'assets/html/app.html'));
     } else {

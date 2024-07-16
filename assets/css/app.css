@@ -29,10 +29,6 @@ body {
   color: #ededed;
   padding: 0;
   margin: 0;
-  animation-name: fadeInOpacity;
-  animation-iteration-count: 1;
-  animation-timing-function: ease-in;
-  animation-duration: 0.5s;
   overflow-y: hidden;
 }
 
@@ -114,6 +110,20 @@ body {
   align-items: center;
   margin: 20px;
   flex-direction: column;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 0.5s;
+}
+
+@keyframes fadeInOpacity {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 .server-status {

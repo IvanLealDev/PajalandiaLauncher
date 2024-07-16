@@ -25,16 +25,14 @@ body {
 }
 
 body {
-  background-image: url('../img/bg4.jpg');
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 100%), url('../img/bg4.jpg');
   background-size: cover;
+  background-repeat: no-repeat;
   color: white;
   padding: 0;
   margin: 0;
-  animation-name: fadeInOpacity;
-  animation-iteration-count: 1;
-  animation-timing-function: ease-in;
-  animation-duration: 0.5s;
   overflow-y: hidden;
+  transition: background-image 1s ease;
 }
 
 nav {
@@ -122,6 +120,10 @@ nav>img {
   background: #191919;
   color: white;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 0.5s;
 }
 
 .textbox {
