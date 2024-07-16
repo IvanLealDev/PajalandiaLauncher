@@ -3,16 +3,13 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const { Auth, lexicon } = require('msmc');
 const { Client } = require('minecraft-launcher-core');
-const { Launcher } = require('adlauncher-core');
 
 app.whenReady().then(() => createWindow());
 
 // Variables globales
-const launcherOff = new Launcher();
-const launcherOn = new Client();
+const launcher = new Client();
 let userAuth;
 let mainWindow;
-let loginWindow;
 
 // Ventana splash
 function ShowApp() {
@@ -81,57 +78,64 @@ function createWindow() {
     });
 }
 
-// Venta LoginOff
-function createLoginWindow() {
-    loginWindow = new BrowserWindow({
-        title: "Pajalandia Launcher",
-        icon: path.join(__dirname, "assets/img/logo.ico"),
-        width: 400,
-        height: 300,
-        minWidth: 400,
-        minHeight: 300,
-        parent: mainWindow,
-        modal: true,
-        titleBarStyle: "hidden",
-        frame: false,
-        backgroundColor: '#FFF',
-        webPreferences: {
-            nodeIntegration: true,
-            contextIsolation: false,
-        }
-    });
-
-    loginWindow.loadFile('assets/html/loginOff.html');
-    loginWindow.on('closed', () => {
-        loginWindow = null;
-    });
+// Obtener UUID según el nombre de usuario
+function getUUID(username) {
+    const users = {
+        "TangaHD": "c0a81a7c-34af-412e-b101-ec16e2133d3c",
+        "FernandezATR": "987e6543-b21a-32d1-c456-789012345678"
+    };
+    return users[username] || '00000000-0000-0000-0000-000000000000';
 }
 
-// Lanzar Minecraft Online
-ipcMain.on('play', async (event) => {
+// Lanzar Minecraft
+ipcMain.on('play', async (event, username) => {
     if (!userAuth) {
-        console.error("User is not authenticated");
-        return;
+        // Si no hay datos de autenticación, usar modo offline
+        console.warn("User is not authenticated, launching in offline mode");
+
+        let optsOffline = {
+            authorization: {
+                access_token: '',
+                client_token: '',
+                uuid: getUUID(username),
+                name: username, // Nombre de usuario offline
+                user_properties: '{}'
+            },
+            root: `${app.getPath('appData')}/.minecraft/`,
+            version: {
+                number: "1.21",
+                type: "release",
+                custom: "fabric-loader-0.15.11-1.21"  // Custom version to launch Fabric
+            },
+            memory: {
+                max: "6G",
+                min: "1G",
+            },
+            javaPath: path.join(`${app.getPath('appData')}/.minecraft/jdk-21.0.2/bin/javaw.exe`), // Ruta del javaw.exe para evitar abrir la consola
+        };
+
+        launcher.launch(optsOffline);
+    } else {
+        let opts = {
+            authorization: userAuth,
+            root: `${app.getPath('appData')}/.minecraft/`,
+            version: {
+                number: "1.21",
+                type: "release",
+                custom: "fabric-loader-0.15.11-1.21"  // Custom version to launch Fabric
+            },
+            memory: {
+                max: "6G",
+                min: "1G",
+            },
+            javaPath: path.join(`${app.getPath('appData')}/.minecraft/jdk-21.0.2/bin/javaw.exe`), // Ruta del javaw.exe para evitar abrir la consola
+        };
+
+        launcher.launch(opts);
     }
 
-    let opts = {
-        authorization: userAuth,
-        root: `${app.getPath('appData')}/.minecraft/`,
-        version: {
-            number: "1.21",
-            type: "release",
-            custom: "fabric-loader-0.15.11-1.21"  // Custom version to launch Fabric
-        },
-        memory: {
-            max: "6G",
-            min: "1G",
-        },
-        javaPath: path.join(`${app.getPath('appData')}/.minecraft/jdk-21.0.2/bin/javaw.exe`), // Ruta del javaw.exe para evitar abrir la consola
-    };
-
-    launcherOn.launch(opts);
-    launcherOn.on('debug', (e) => console.log(e));
-    launcherOn.on('data', (e) => console.log(e));
+    launcher.on('debug', (e) => console.log(e));
+    launcher.on('data', (e) => console.log(e));
 
     // Cerrar la ventana de Electron después de iniciar Minecraft
     setTimeout(() => {
@@ -141,36 +145,16 @@ ipcMain.on('play', async (event) => {
     }, 10000); // Cerrar después de 10 segundos (10000 milisegundos)
 });
 
-// Lanzar Minecraft Offline
-ipcMain.on('launch-game', (event, username) => {
-    const launchOptions = {
-        username: username, // Utiliza el nombre de usuario recibido
-        version: 'fabric-loader-0.15.11-1.21', // Ingresa la versión de Fabric
-        gameDirectory: `${app.getPath('appData')}/.minecraft/`, // Ingresa el directorio donde tienes descargado Minecraft
-        memory: {
-            // Define la memoria que quieras usar
-            min: '1G', // Mínimo de memoria
-            max: '6G', // Máximo de memoria
-        },
-        java: path.join(`${app.getPath('appData')}/.minecraft/jdk-21.0.2/bin/javaw.exe`), // Ubicación exacta del archivo java.exe (OPCIONAL)
-        java8: 'C:/Program Files/Java/jre-1.8/bin/java.exe', // Ubicación exacta del archivo java.exe v8 (OPCIONAL)
-    };
-
-    // Lanzar Minecraft en un proceso separado
-    launcherOff.launch(launchOptions).then(() => {
-        console.log('Minecraft lanzado con éxito');
-        // No cerrar la aplicación de Electron cuando Minecraft se lanza
-    }).catch(err => {
-        console.error('Error al lanzar Minecraft:', err);
-    });
+// Cuando se carga la aplicación, muestra la ventana de loginOff.
+ipcMain.on('open-login-window', () => {
+    mainWindow.loadURL(path.join(__dirname, 'assets/html/loginOff.html'));
 });
 
 // LoginOff
 ipcMain.on('login-attempt', (event, username, password) => {
     if ((username === "TangaHD" && password === "123") || (username === "FernandezATR" && password === "234")) {
         event.sender.send('login-response', 'success');
-        if (loginWindow) loginWindow.close();
-        mainWindow.loadURL(path.join(__dirname, 'assets/html/appOff.html'));
+        mainWindow.loadURL(path.join(__dirname, 'assets/html/app.html'));
     } else {
         event.sender.send('login-response', 'failure');
     }
@@ -189,12 +173,5 @@ ipcMain.on("manualClose", () => {
 app.on("activate", () => {
     if (mainWindow === null) {
         createWindow();
-    }
-});
-
-// Cuando se carga la aplicación, muestra la ventana de loginOff.
-ipcMain.on('open-login-window', () => {
-    if (!loginWindow) {
-        createLoginWindow();
     }
 });

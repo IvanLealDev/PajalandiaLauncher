@@ -1,30 +1,169 @@
-/* styles.css */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
 * {
     font-family: "Inter";
-    vertical-align: baseline;
-    background-color: #161616;
+    box-sizing: border-box;
 }
 
-*,
-*:before,
-*:after {
-    box-sizing: inherit;
+body {
+    background-image: url('../img/bg4.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #ededed;
+    padding: 0;
+    margin: 0;
+    animation-name: fadeInOpacity;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 0.5s;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-.btn {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
+nav {
+    height: 35px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+nav>img {
+    padding-left: 10px;
+    -webkit-app-region: drag;
+}
+
+#title {
+    user-select: none;
+    font-size: 12px;
+    margin-left: 10px;
+    -webkit-app-region: drag;
+}
+
+:not(nav) {
+    -webkit-app-region: no-drag;
+}
+
+.nav-buttons {
+    margin-left: auto;
+    height: 100%;
+    display: flex;
+}
+
+.nav-buttons>button {
+    transition: background 0.2s ease;
+    background: transparent;
     border: none;
+    width: 45px;
+    height: 35px;
+    margin: 0;
+    aspect-ratio: 1;
+    color: #ededed;
+    font-size: 15px;
+    user-select: none;
+}
+
+.nav-buttons>button:hover {
+    transition: 0.2s ease;
+    background: rgba(255, 255, 255, 0.1);
     cursor: pointer;
 }
 
-.modal-content {
+.nav-buttons>button:active {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.close:hover {
+    background: #E81123 !important;
+}
+
+.close:active {
+    background: #F1707A !important;
+}
+
+.close:active .icon {
     color: white;
-    margin: 15% auto;
+}
+
+/* Container and Modal Content */
+
+.container {
+    max-width: 450px;
+    max-height: 350px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
     padding: 20px;
-    border: 2px solid #888;
-    width: 80%; 
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #666;
+    font-size: 14px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #6a11cb;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #2575fc;
+}
+
+#loginMessage {
+    margin-top: 20px;
+    font-size: 14px;
+    display: none;
 }
