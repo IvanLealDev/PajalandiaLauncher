@@ -1,1 +1,51 @@
-# PajalandiaLauncher
+<!-- OBJETIVOS -->
+# Objetivos 🗒️
+- [x] Lograr iniciar Minecraft desde el back-end
+    - [x] Lanzar Fabric custom version
+    - [x] Lanzar con Java integrado
+- [ ] Crear el front-end y back-end de cada vista
+    - [x] Splash
+        - [x] Primera ventana en cargar y luego redirigir a Login
+        - [x] Duracion de animacion y ventana 2.9 segundos
+        - [x] Logo y barra de carga
+        - [x] Estilo personalizado
+    - [x] Login
+        - [x] Barra de Maximizar y cerrar
+        - [x] Estilo personalizado
+        - [ ] Animaciones de FadeIn y FadeOut
+        - [x] Iniciar sesion con cuenta de Microsoft
+            - [x] Habra ventana emergente donde pueda poner los datos de mi cuenta de Microsoft
+            - [x] Animacion de carga cuando apretan el boton.
+        - [x] Iniciar sesion sin cuenta de Microsft de manera offline.
+            - [x] Rediriga a la venta de LoginOff
+    - [x] LoginOff
+        - [x] Barra de Maximizar y cerrar
+        - [ ] Estilo personalizado
+        - [ ] Animaciones de FadeIn y FadeOut
+        - [x] Iniciar sesion sin cuenta de Microsft de manera offline.
+            - [x] Solo pueda entrar si el usuario y la pass esta registrada en el back-end
+            - [x] Mensaje de error y de successful dependiendo los datos ingresados
+            - [x] Rediriga a la venta de App si los valores son correctos
+    - [x] App
+        - [x] Barra de Maximizar y cerrar
+        - [ ] Estilo personalizado
+        - [ ] Animaciones de FadeIn y FadeOut
+        - [ ] Programar botones
+            - [x] Lanzar el Minecraft, dependiendo si entro con Microsoft o Offline
+            - [ ] Boton de Configuracion, redirigir a la ventana config
+            - [ ] Boton de Usuario, redirigir a la ventana player
+            - [ ] 
+        - [ ] Botones de redes/links importantes con íconos personalizados
+    - [ ] Config
+    - [ ] Player
+- [x] Añadir soporte para cuentas de Microsoft - Online
+- [x] Añadir soporte para cuentas No Premiun - Offline
+- [ ] Crear opciones modulares:
+    - [ ] Instalación de Modpack fijo automáticamente 
+    - [ ] Actualización automática de modpacks
+- [x] Soporte de lenguaje:
+    - [x] Español
+- [ ] Intentar almacenar en cache ciertas funciones para acelerar los tiempos de carga
+- [ ] Añadir instrucciones para compilar
+- [ ] Solucionar problemas de seguridad por Electron (Advertencia en los logs de la consola)
+- [ ] Guardar los datos personalizables luego de reiniciar la aplicación
