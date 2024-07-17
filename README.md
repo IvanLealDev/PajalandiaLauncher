@@ -4,12 +4,12 @@
     - [x] Lanzar Fabric custom version
     - [x] Lanzar con Java integrado
 - [ ] Crear el front-end y back-end de cada vista
-    - [x] Ventana Splash
+    - [x] Vista Splash
         - [x] Primera ventana en cargar y luego redirigir a Login
         - [x] Duracion de animacion y ventana 2.9 segundos
         - [x] Logo y barra de carga
         - [x] Estilo personalizado
-    - [x] Ventana Login
+    - [x] Vista Login
         - [x] Barra de Maximizar y cerrar
         - [x] Estilo personalizado
         - [ ] Animaciones de FadeIn y FadeOut
@@ -18,7 +18,7 @@
             - [x] Animacion de carga cuando apretan el boton.
         - [x] Iniciar sesion sin cuenta de Microsft de manera offline.
             - [x] Rediriga a la venta de LoginOff
-    - [x] Ventana LoginOff
+    - [x] Vista LoginOff
         - [x] Barra de Maximizar y cerrar
         - [ ] Estilo personalizado
         - [ ] Animaciones de FadeIn y FadeOut
@@ -26,7 +26,7 @@
             - [x] Solo pueda entrar si el usuario y la pass esta registrada en el back-end
             - [x] Mensaje de error y de successful dependiendo los datos ingresados
             - [x] Rediriga a la venta de App si los valores son correctos
-    - [x] Ventana App
+    - [x] Vista App
         - [x] Barra de Maximizar y cerrar
         - [ ] Estilo personalizado
         - [ ] Animaciones de FadeIn y FadeOut
@@ -39,7 +39,7 @@
             - [ ] Boton del Dicord para unirte
         - [ ] Server status
         - [ ] Server count players online
-    - [ ] Config
+    - [ ] Vista Config
         - [ ] Barra de Maximizar y cerrar
         - [ ] Estilo personalizado
         - [ ] Animaciones de FadeIn y FadeOut
@@ -47,7 +47,7 @@
             - [ ] Maximum RAM
             - [ ] Minumum RAM
         - [ ] Boton para guardar los cambios y volver a la ventana App
-    - [ ] Player
+    - [ ] Vista Player
         - [ ] Barra de Maximizar y cerrar
         - [ ] Estilo personalizado
         - [ ] Animaciones de FadeIn y FadeOut
@@ -55,6 +55,7 @@
         - [ ] Boton para desconectarte de la cuenta y que te rediriga a la ventana de Login
 - [x] Añadir soporte para cuentas de Microsoft - Online
 - [x] Añadir soporte para cuentas No Premiun - Offline
+    - [x] Solo pueden entrar si su "Username" y "Pass" estan en el codigo
 - [ ] Actualizaciones automáticas del launcher
 - [ ] Crear opciones modulares:
     - [ ] Instalación de Modpack fijo automáticamente 
