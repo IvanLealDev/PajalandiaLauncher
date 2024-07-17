@@ -26,6 +26,7 @@
             - [x] Solo pueda entrar si el usuario y la pass esta registrada en el back-end
             - [x] Mensaje de error y de successful dependiendo los datos ingresados
             - [x] Rediriga a la venta de App si los valores son correctos
+            - [ ] Boton de guardar los datos ingresados
     - [x] Vista App
         - [x] Barra de Maximizar y cerrar
         - [ ] Estilo personalizado
