@@ -1,1 +1,68 @@
-# PajalandiaLauncher
+<!-- OBJETIVOS -->
+# Objetivos 🗒️
+- [x] Lograr iniciar Minecraft desde el back-end
+    - [x] Lanzar Fabric custom version
+    - [x] Lanzar con Java integrado
+- [ ] Crear el front-end y back-end de cada vista
+    - [x] Vista Splash
+        - [x] Primera ventana en cargar y luego redirigir a Login
+        - [x] Duracion de animacion y ventana 2.9 segundos
+        - [x] Logo y barra de carga
+        - [x] Estilo personalizado
+    - [x] Vista Login
+        - [x] Barra de Maximizar y cerrar
+        - [x] Estilo personalizado
+        - [ ] Animaciones de FadeIn y FadeOut
+        - [x] Iniciar sesion con cuenta de Microsoft
+            - [x] Habra ventana emergente donde pueda poner los datos de mi cuenta de Microsoft
+            - [x] Animacion de carga cuando apretan el boton.
+        - [x] Iniciar sesion sin cuenta de Microsft de manera offline.
+            - [x] Rediriga a la venta de LoginOff
+    - [x] Vista LoginOff
+        - [x] Barra de Maximizar y cerrar
+        - [ ] Estilo personalizado
+        - [ ] Animaciones de FadeIn y FadeOut
+        - [x] Iniciar sesion sin cuenta de Microsft de manera offline.
+            - [x] Solo pueda entrar si el usuario y la pass esta registrada en el back-end
+            - [x] Mensaje de error y de successful dependiendo los datos ingresados
+            - [x] Rediriga a la venta de App si los valores son correctos
+    - [x] Vista App
+        - [x] Barra de Maximizar y cerrar
+        - [ ] Estilo personalizado
+        - [ ] Animaciones de FadeIn y FadeOut
+        - [ ] Programar botones
+            - [x] Lanzar el Minecraft, dependiendo si entro con Microsoft o Offline
+            - [ ] Boton de Configuracion, redirigir a la ventana config
+            - [ ] Boton de Usuario, redirigir a la ventana player
+            - [ ] Boton de Youtobe para ver el trailer
+            - [ ] Boton de Wiki para ver todo el contenido
+            - [ ] Boton del Dicord para unirte
+        - [ ] Server status
+        - [ ] Server count players online
+    - [ ] Vista Config
+        - [ ] Barra de Maximizar y cerrar
+        - [ ] Estilo personalizado
+        - [ ] Animaciones de FadeIn y FadeOut
+        - [ ] Opcion para modificar Memory
+            - [ ] Maximum RAM
+            - [ ] Minumum RAM
+        - [ ] Boton para guardar los cambios y volver a la ventana App
+    - [ ] Vista Player
+        - [ ] Barra de Maximizar y cerrar
+        - [ ] Estilo personalizado
+        - [ ] Animaciones de FadeIn y FadeOut
+        - [ ] Poder ver la cabeza del nombre del jugador
+        - [ ] Boton para desconectarte de la cuenta y que te rediriga a la ventana de Login
+- [x] Añadir soporte para cuentas de Microsoft - Online
+- [x] Añadir soporte para cuentas No Premiun - Offline
+    - [x] Solo pueden entrar si su "Username" y "Pass" estan en el codigo
+- [ ] Actualizaciones automáticas del launcher
+- [ ] Crear opciones modulares:
+    - [ ] Instalación de Modpack fijo automáticamente 
+    - [ ] Actualización automática de modpacks
+- [x] Soporte de lenguaje:
+    - [x] Español
+- [ ] Intentar almacenar en cache ciertas funciones para acelerar los tiempos de carga
+- [ ] Añadir instrucciones para compilar
+- [ ] Solucionar problemas de seguridad por Electron (Advertencia en los logs de la consola)
+- [ ] Guardar los datos personalizables luego de reiniciar la aplicación
