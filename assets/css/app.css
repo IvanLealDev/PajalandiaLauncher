@@ -99,7 +99,7 @@ nav>img {
 /* --------------- */
 
 body {
-  background: url('../img/bg5.jpg') no-repeat center center fixed;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 100%), url('../img/bg5.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   color: white;

@@ -20,23 +20,16 @@
                     draggable="false" /></button>
         </div>
     </nav>
-    <div class="login-box">
-        <div class="login-info">
-            </br>
-            <button onclick="loginMS(this)" id="IIiiii" class="btn">
-                <img style="vertical-align: middle; margin-right: 5px;" src="../img/microsoft.png" id="microsoft"
-                    height="20" width="20">
-                Login with Microsoft
-            </button>
-            </br>
-            </br>
-            </br>
-            <button onclick="openLoginWindow(this)" id="IIiiii" class="btn">
-                <img style="vertical-align: middle; margin-right: 5px;" src="../img/cloud.png" id="microsoft"
-                    height="25" width="25">
-                Offline
-            </button>
-        </div>
+    <div class="login-container">
+        <h1>Login Options</h1>
+        <a class="login-button" onclick="loginMS(this)">
+            <img src="../img/microsoft.png" alt="Microsoft" class="img-microsoft">
+            Login with Microsoft
+        </a>
+        <a class="login-button" onclick="openLoginWindow(this)">
+            <img src="../img/cloud.png" alt="Offline" class="img-offline">
+            Login Offline
+        </a>
     </div>
     <script src="../js/login.js"></script>
 </body>

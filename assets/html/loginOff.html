@@ -18,22 +18,40 @@
                     draggable="false" /></button>
         </div>
     </nav>
-    <div class="container">
-        <div class="modal-content">
-            <h2>Login Offline</h2>
-            <form id="loginForm">
-                <div class="input-group">
-                    <label for="username">Usuario:</label>
-                    <input type="text" id="username" name="username" required>
+    <div class="login-container">
+        <img src="../img/minecraft_title.png" alt="Logo" class="logo">
+        <h1>MINECRAFT LOGIN </h1>
+        <form id="loginForm">
+            <div class="input-group">
+                <svg id="profileSVG" class="loginSVG" viewBox="40 37 65.36 61.43">
+                    <g>
+                        <path d="M86.77,58.12A13.79,13.79,0,1,0,73,71.91,13.79,13.79,0,0,0,86.77,58.12M97,103.67a3.41,3.41,0,0,0,3.39-3.84,27.57,27.57,0,0,0-54.61,0,3.41,3.41,0,0,0,3.39,3.84Z"/>
+                    </g>
+                </svg>
+                <div class="login-line"></div>
+                <div class="col-3">
+                    <input class="effect-2" placeholder="USER" type="text" id="email" name="email" required>
+                    <span class="focus-border"></span>
                 </div>
-                <div class="input-group">
-                    <label for="password">Contraseña:</label>
-                    <input type="password" id="password" name="password" required>
+            </div>
+            <div class="input-group">
+                <svg id="lockSVG" class="loginSVG" viewBox="40 32 60.36 70.43">
+                    <g>
+                        <path d="M86.16,54a16.38,16.38,0,1,0-32,0H44V102.7H96V54Zm-25.9-3.39a9.89,9.89,0,1,1,19.77,0A9.78,9.78,0,0,1,79.39,54H60.89A9.78,9.78,0,0,1,60.26,50.59ZM70,96.2a6.5,6.5,0,0,1-6.5-6.5,6.39,6.39,0,0,1,3.1-5.4V67h6.5V84.11a6.42,6.42,0,0,1,3.39,5.6A6.5,6.5,0,0,1,70,96.2Z"/>
+                    </g>
+                </svg>
+                <div class="login-line"></div>
+                <div class="col-3">
+                    <input class="effect-2" placeholder="PASS" type="password" id="password" name="password" required>
+                    <span class="focus-border"></span>
                 </div>
-                <button type="submit">Login</button>
-            </form>
-            <div id="loginMessage"></div>
-        </div>
+            </div>
+            <div class="input-group remember-me">
+                <input type="checkbox" id="rememberMe">
+                <label for="rememberMe">Remember me?</label>
+            </div>
+            <button type="submit">Login</button>
+        </form>
     </div>
 
     <script src="../js/loginOff.js"></script>
