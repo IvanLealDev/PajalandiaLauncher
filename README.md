@@ -15,7 +15,7 @@
         - [ ] Animaciones de FadeIn y FadeOut
         - [x] Iniciar sesion con cuenta de Microsoft
             - [x] Habra ventana emergente donde pueda poner los datos de mi cuenta de Microsoft
-            - [x] Animacion de carga cuando apretan el boton.
+            - [x] Animacion de carga cuando se apreta el boton y que pare la animacion cuando la ventana se cierra
         - [x] Iniciar sesion sin cuenta de Microsft de manera offline.
             - [x] Rediriga a la venta de LoginOff
     - [x] Vista LoginOff
