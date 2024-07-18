@@ -12,20 +12,21 @@
     - [x] Vista Login
         - [x] Barra de Maximizar y cerrar
         - [x] Estilo personalizado
-        - [ ] Animaciones de FadeIn y FadeOut
+        - [x] Animaciones de FadeIn y FadeOut
         - [x] Iniciar sesion con cuenta de Microsoft
             - [x] Habra ventana emergente donde pueda poner los datos de mi cuenta de Microsoft
-            - [x] Animacion de carga cuando apretan el boton.
+            - [x] Animacion de carga cuando se apreta el boton y que pare la animacion cuando la ventana se cierra
         - [x] Iniciar sesion sin cuenta de Microsft de manera offline.
             - [x] Rediriga a la venta de LoginOff
     - [x] Vista LoginOff
         - [x] Barra de Maximizar y cerrar
-        - [ ] Estilo personalizado
-        - [ ] Animaciones de FadeIn y FadeOut
+        - [x] Estilo personalizado
+        - [x] Animaciones de FadeIn y FadeOut
         - [x] Iniciar sesion sin cuenta de Microsft de manera offline.
             - [x] Solo pueda entrar si el usuario y la pass esta registrada en el back-end
             - [x] Mensaje de error y de successful dependiendo los datos ingresados
             - [x] Rediriga a la venta de App si los valores son correctos
+            - [x] Boton de guardar los datos ingresados
     - [x] Vista App
         - [x] Barra de Maximizar y cerrar
         - [ ] Estilo personalizado
@@ -57,9 +58,9 @@
 - [x] Añadir soporte para cuentas No Premiun - Offline
     - [x] Solo pueden entrar si su "Username" y "Pass" estan en el codigo
 - [ ] Actualizaciones automáticas del launcher
-- [ ] Crear opciones modulares:
-    - [ ] Instalación de Modpack fijo automáticamente 
-    - [ ] Actualización automática de modpacks
+- [x] Crear opciones modulares:
+    - [x] Instalación de Modpack fijo automáticamente 
+    - [x] Actualización automática de modpacks
 - [x] Soporte de lenguaje:
     - [x] Español
 - [ ] Intentar almacenar en cache ciertas funciones para acelerar los tiempos de carga
