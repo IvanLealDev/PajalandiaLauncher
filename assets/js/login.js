@@ -21,13 +21,23 @@ function loginMS(element) {
 
 ipcRenderer.on('LoginSuccess', (event, data) => {
     console.log('Login successful:', data);
-    // Manejar el éxito del inicio de sesión.
+    stopLoadingAnimation();
 });
 
 ipcRenderer.on('LoginFailed', (event, error) => {
     console.error('Login failed:', error);
-    // Manejar el error del inicio de sesión.
+    stopLoadingAnimation();
 });
+
+ipcRenderer.on('LoginWindowClosed', () => {
+    stopLoadingAnimation();
+});
+
+function stopLoadingAnimation() {
+    const msLoginButton = document.getElementById('ms-login-button');
+    msLoginButton.classList.remove('buttonLoading');
+    msLoginButton.innerHTML = '<img src="../img/microsoft.png" alt="Microsoft" class="img-microsoft"> Login with Microsoft';
+}
 
 // Cuando el usuario hace clic en el botón de Offline.
 function openLoginWindow() {

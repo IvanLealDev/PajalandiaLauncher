@@ -1,3 +1,19 @@
+body {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 100%), url('../img/bg4.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #ededed;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    transition: background-image 1s ease;
+}
+
 .Splash {
     position: absolute;
     top: 0;
@@ -10,7 +26,6 @@
     align-items: center;
     justify-items: center;
     box-sizing: border-box;
-    background-color: #191919;
     border-radius: 7px;
 }
 
@@ -42,6 +57,10 @@
     text-align: center;
     left: 100px;
     position: relative;
+    animation-name: fadeInOpacity;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 0.5s;
 }
 
 .image {
@@ -63,7 +82,7 @@
     animation: load 3s normal forwards;
     box-shadow: 0 10px 40px -10px #fff;
     border-radius: 100px;
-    background: #ff9900;
+    background: rgba(222,171,96,255);
     height: 10px;
     width: 0;
 }

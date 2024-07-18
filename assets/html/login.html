@@ -5,8 +5,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/login.css" />
-    <link rel="stylesheet" href="../css/toast.css" />
-    <!-- <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css"> -->
 </head>
 
 <body>
@@ -14,15 +12,13 @@
         <img id="logo" src="../img/logo.ico" alt="my logo" height="24" width="30">
         <p id="title">Pajalandia Launcher</p>
         <div class="nav-buttons">
-            <button id="minimize" class="minimize"><img class="icon" id="min" alt="minimize"
-                    srcset="../img/min-w-10.png" draggable="false" /></button>
-            <button id="close" class="close"><img class="icon" id="close" alt="close" srcset="../img/close-w-10.png"
-                    draggable="false" /></button>
+            <button id="minimize" class="minimize"><img class="icon" id="min" alt="minimize" srcset="../img/min-w-10.png" draggable="false" /></button>
+            <button id="close" class="close"><img class="icon" id="close" alt="close" srcset="../img/close-w-10.png" draggable="false" /></button>
         </div>
     </nav>
     <div class="login-container">
         <h1>Login Options</h1>
-        <a class="login-button" onclick="loginMS(this)">
+        <a id="ms-login-button" class="login-button" onclick="loginMS(this)">
             <img src="../img/microsoft.png" alt="Microsoft" class="img-microsoft">
             Login with Microsoft
         </a>
