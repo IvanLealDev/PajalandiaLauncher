@@ -33,15 +33,14 @@
         - [ ] Animaciones de FadeIn y FadeOut
         - [ ] Programar botones
             - [x] Lanzar el Minecraft, dependiendo si entro con Microsoft o Offline
-            - [ ] Boton de Configuracion, redirigir a la ventana config
-            - [ ] Boton de Usuario, redirigir a la ventana player
+            - [x] Boton de Configuracion, redirigir a la ventana config
+            - [x] Boton de Usuario, redirigir a la ventana player
             - [ ] Boton de Youtobe para ver el trailer
             - [ ] Boton de Wiki para ver todo el contenido
             - [ ] Boton del Dicord para unirte
         - [ ] Server status
         - [ ] Server count players online
     - [ ] Vista Config
-        - [ ] Barra de Maximizar y cerrar
         - [ ] Estilo personalizado
         - [ ] Animaciones de FadeIn y FadeOut
         - [ ] Opcion para modificar Memory
@@ -49,7 +48,6 @@
             - [ ] Minumum RAM
         - [ ] Boton para guardar los cambios y volver a la ventana App
     - [ ] Vista Player
-        - [ ] Barra de Maximizar y cerrar
         - [ ] Estilo personalizado
         - [ ] Animaciones de FadeIn y FadeOut
         - [ ] Poder ver la cabeza del nombre del jugador

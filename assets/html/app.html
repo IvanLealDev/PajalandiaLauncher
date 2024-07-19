@@ -19,26 +19,23 @@
                     draggable="false" /></button>
         </div>
     </nav>
+    <div class="sidepanel left" id="leftSidepanel">
+        <span>Click the button on the side to watch this panel collapse gracefully</span>
+        <div class="line"></div>
+    </div>
+    <div class="sidepanel right" id="rightSidepanel">
+        <span>Click the button on the side to watch this panel collapse gracefully</span>
+        <div class="line"></div>
+    </div>
     <div class="container">
-        <!-- <div class="server-status">
-            <img src="../img/logo.png" alt="my logo" class="server-status-icon">
-            <div class="server-info">
-                <div class="server-name">Pajalandia</div>
-                <div class="status">Online</div>
-            </div>
-            <div class="status-player-count">
-                <div class="player-count">0</div>
-                <div class="dot"></div>
-            </div>
-        </div> -->
         <div class="play-bar">
-            <div class="bar user glow" onclick="oneclick(this)">
+            <div class="bar user glow" onclick="toggleLeftSidePanel()">
                 <i class="fas fa-user"></i>
             </div>
             <div class="text glow" id="launchButton">
                 <span class="buttonText">Jugar</span>
             </div>
-            <div class="bar glow" onclick="oneclick(this)">
+            <div class="bar glow" onclick="toggleRightSidePanel()">
                 <i class="fas fa-cog"></i>
             </div>
         </div>
