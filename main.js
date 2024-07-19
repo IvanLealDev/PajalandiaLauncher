@@ -1,24 +1,22 @@
-// Importación de módulos.
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const fs = require('fs');
+const AdmZip = require('adm-zip');
 const { Auth, lexicon } = require('msmc');
 const { Client } = require('minecraft-launcher-core');
 
 app.whenReady().then(() => createWindow());
 
-// Variables globales
 const launcher = new Client();
 let loggedInUsername = '';
 let userAuth;
 let mainWindow;
 
-// Ventana splash
 function ShowApp() {
-    mainWindow.show()
+    mainWindow.show();
     splash.close();
-};
+}
 
-// Ventana principal
 function createWindow() {
     mainWindow = new BrowserWindow({
         title: "Pajalandia Launcher",
@@ -38,14 +36,8 @@ function createWindow() {
         },
     });
 
-    mainWindow.loadURL(path.join(__dirname, "assets/html/login.html"))
+    mainWindow.loadURL(path.join(__dirname, "assets/html/login.html"));
 
-    // mainWindow.setMenuBarVisibility(false);
-
-    // Dev Tools
-    // mainWindow.webContents.openDevTools();
-
-    // Creación de la pantalla de bienvenida.
     splash = new BrowserWindow({
         width: 300,
         icon: path.join(__dirname, "assets/img/logo.ico"),
@@ -59,16 +51,15 @@ function createWindow() {
         setTimeout(ShowApp, 2900);
     });
 
-    // Login Microsoft.
     ipcMain.on('LoginMicrosoft', async (event) => {
-        const msmcInstance = new Auth('select_account'); // Inicialización de msmc
+        const msmcInstance = new Auth('select_account');
         msmcInstance
             .on('load', console.log)
             .launch('electron')
             .then(async (e) => {
                 const t = await e.getMinecraft();
                 console.log(t.mclc());
-                userAuth = t.mclc(); // Almacenar los datos de autenticación del usuario
+                userAuth = t.mclc();
                 event.sender.send('LoginSuccess', userAuth);
                 mainWindow.loadURL(path.join(__dirname, 'assets/html/app.html'));
             })
@@ -79,7 +70,158 @@ function createWindow() {
     });
 }
 
-// Obtener UUID según el nombre de usuario
+async function downloadAndExtract(url, destPath, rootDirNameToRemove = '') {
+    const fetch = await import('node-fetch').then(mod => mod.default);
+    const response = await fetch(url);
+    const buffer = await response.buffer();
+    const zip = new AdmZip(buffer);
+    const zipEntries = zip.getEntries();
+
+    for (const zipEntry of zipEntries) {
+        const relativePath = rootDirNameToRemove ? zipEntry.entryName.replace(`${rootDirNameToRemove}/`, '') : zipEntry.entryName;
+        const entryPath = path.join(destPath, relativePath);
+
+        if (zipEntry.isDirectory) {
+            if (!fs.existsSync(entryPath)) {
+                fs.mkdirSync(entryPath, { recursive: true });
+            }
+        } else {
+            const fileExists = fs.existsSync(entryPath);
+            const fileContent = zipEntry.getData();
+            const existingContent = fileExists ? fs.readFileSync(entryPath) : null;
+
+            if (!fileExists || !fileContent.equals(existingContent)) {
+                fs.writeFileSync(entryPath, fileContent);
+            }
+        }
+    }
+}
+
+function cleanMinecraftFolder(folderPath) {
+    fs.readdirSync(folderPath).forEach(file => {
+        const filePath = path.join(folderPath, file);
+        if (file !== 'options.txt' && file !== 'screenshots') {
+            if (fs.lstatSync(filePath).isDirectory()) {
+                fs.rmdirSync(filePath, { recursive: true });
+            } else {
+                fs.unlinkSync(filePath);
+            }
+        }
+    });
+}
+
+ipcMain.on('prepare-launch', async (event) => {
+    const appDataPath = app.getPath('appData');
+    const minecraftPath = path.join(appDataPath, '.minecraft');
+    const shaFilePath = path.join(minecraftPath, 'last_commit_sha.txt');
+    const repoUrl = 'https://github.com/IvanLealDev/Pajalandia-V-Pack-de-Mods/archive/refs/heads/main.zip';
+    const commitsApiUrl = 'https://api.github.com/repos/IvanLealDev/Pajalandia-V-Pack-de-Mods/commits/main';
+    const jdkUrl = 'https://download.oracle.com/java/21/archive/jdk-21.0.2_windows-x64_bin.zip';
+
+    if (!fs.existsSync(minecraftPath)) {
+        fs.mkdirSync(minecraftPath, { recursive: true });
+    }
+
+    const fetch = await import('node-fetch').then(mod => mod.default);
+    const commitsResponse = await fetch(commitsApiUrl);
+    const commitsData = await commitsResponse.json();
+    const latestCommitSha = commitsData.sha;
+
+    let localCommitSha = null;
+    if (fs.existsSync(shaFilePath)) {
+        localCommitSha = fs.readFileSync(shaFilePath, 'utf8').trim();
+    }
+
+    if (localCommitSha !== latestCommitSha) {
+        cleanMinecraftFolder(minecraftPath);
+        await downloadAndExtract(repoUrl, minecraftPath, 'Pajalandia-V-Pack-de-Mods-main');
+        await downloadAndExtract(jdkUrl, minecraftPath);
+        fs.writeFileSync(shaFilePath, latestCommitSha);
+    }
+
+    const username = loggedInUsername;
+    if (!userAuth) {
+        console.warn("User is not authenticated, launching in offline mode");
+
+        let optsOffline = {
+            authorization: {
+                access_token: '',
+                client_token: '',
+                uuid: getUUID(username),
+                name: username,
+                user_properties: '{}'
+            },
+            root: `${app.getPath('appData')}/.minecraft/`,
+            version: {
+                number: "1.21",
+                type: "release",
+                custom: "fabric-loader-0.15.11-1.21"
+            },
+            memory: {
+                max: "6G",
+                min: "1G",
+            },
+            javaPath: path.join(`${app.getPath('appData')}/.minecraft/jdk-21.0.2/bin/javaw.exe`),
+        };
+
+        launcher.launch(optsOffline);
+    } else {
+        let opts = {
+            authorization: userAuth,
+            root: `${app.getPath('appData')}/.minecraft/`,
+            version: {
+                number: "1.21",
+                type: "release",
+                custom: "fabric-loader-0.15.11-1.21"
+            },
+            memory: {
+                max: "6G",
+                min: "1G",
+            },
+            javaPath: path.join(`${app.getPath('appData')}/.minecraft/jdk-21.0.2/bin/javaw.exe`),
+        };
+
+        launcher.launch(opts);
+    }
+
+    launcher.on('debug', (e) => console.log(e));
+    launcher.on('data', (e) => console.log(e));
+
+    setTimeout(() => {
+        console.log('Cerrando el lanzador después de 10 segundos...');
+        mainWindow.close();
+        app.quit();
+    }, 10000);
+});
+
+ipcMain.on('open-login-window', () => {
+    mainWindow.loadURL(path.join(__dirname, 'assets/html/loginOff.html'));
+});
+
+ipcMain.on('login-attempt', (event, username, password) => {
+    if ((username === "SDGames" && password === "123") || (username === "FernandezATR" && password === "234")) {
+        loggedInUsername = username;
+        event.sender.send('login-response', 'success');
+        mainWindow.loadURL(path.join(__dirname, 'assets/html/app.html'));
+    } else {
+        event.sender.send('login-response', 'failure');
+    }
+});
+
+ipcMain.on("manualMinimize", () => {
+    mainWindow.minimize();
+});
+
+ipcMain.on("manualClose", () => {
+    app.quit();
+})
+
+app.on("activate", () => {
+    if (mainWindow === null) {
+        createWindow();
+    }
+});
+
 function getUUID(username) {
     const users = {
         "SDGames": "8bfe6d5b-80ca-4ff9-8c2c-c8fdbb1b872b",
@@ -89,96 +231,3 @@ function getUUID(username) {
     console.log(`UUID for ${username}: ${uuid}`);
     return uuid;
 }
-
-// Lanzar Minecraft
-ipcMain.on('play', async (event) => {
-    const username = loggedInUsername;  // Obtener el nombre de usuario guardado
-    console.log(`Launching game for username: ${username}`);
-    if (!userAuth) {
-        // Si no hay datos de autenticación, usar modo offline
-        console.warn("User is not authenticated, launching in offline mode");
-
-        let optsOffline = {
-            authorization: {
-                access_token: '',
-                client_token: '',
-                uuid: getUUID(username),  // Obtener el UUID según el nombre de usuario
-                name: username,  // Nombre de usuario offline
-                user_properties: '{}'
-            },
-            root: `${app.getPath('appData')}/.minecraft/`,
-            version: {
-                number: "1.21",
-                type: "release",
-                custom: "fabric-loader-0.15.11-1.21"  // Custom version to launch Fabric
-            },
-            memory: {
-                max: "6G",
-                min: "1G",
-            },
-            javaPath: path.join(`${app.getPath('appData')}/.minecraft/jdk-21.0.2/bin/javaw.exe`), // Ruta del javaw.exe para evitar abrir la consola
-        };
-
-        console.log('Launching options:', optsOffline);
-        launcher.launch(optsOffline);
-    } else {
-        let opts = {
-            authorization: userAuth,
-            root: `${app.getPath('appData')}/.minecraft/`,
-            version: {
-                number: "1.21",
-                type: "release",
-                custom: "fabric-loader-0.15.11-1.21"  // Custom version to launch Fabric
-            },
-            memory: {
-                max: "6G",
-                min: "1G",
-            },
-            javaPath: path.join(`${app.getPath('appData')}/.minecraft/jdk-21.0.2/bin/javaw.exe`), // Ruta del javaw.exe para evitar abrir la consola
-        };
-
-        launcher.launch(opts);
-    }
-
-    launcher.on('debug', (e) => console.log(e));
-    launcher.on('data', (e) => console.log(e));
-
-    // Cerrar la ventana de Electron después de iniciar Minecraft
-    setTimeout(() => {
-        console.log('Cerrando el lanzador después de 10 segundos...');
-        mainWindow.close();
-        app.quit();
-    }, 10000); // Cerrar después de 10 segundos (10000 milisegundos)
-});
-
-// Cuando se carga la aplicación, muestra la ventana de loginOff.
-ipcMain.on('open-login-window', () => {
-    mainWindow.loadURL(path.join(__dirname, 'assets/html/loginOff.html'));
-});
-
-// LoginOff
-ipcMain.on('login-attempt', (event, username, password) => {
-    if ((username === "SDGames" && password === "123") || (username === "FernandezATR" && password === "234")) {
-        loggedInUsername = username;  // Guardar el nombre de usuario
-        event.sender.send('login-response', 'success');
-        mainWindow.loadURL(path.join(__dirname, 'assets/html/app.html'));
-    } else {
-        event.sender.send('login-response', 'failure');
-    }
-});
-
-// Botones de Cerrar y minimizar
-ipcMain.on("manualMinimize", () => {
-    mainWindow.minimize();
-});
-
-ipcMain.on("manualClose", () => {
-    app.quit();
-})
-
-// Cuando se carga la aplicación, muestra la ventana princiapal.
-app.on("activate", () => {
-    if (mainWindow === null) {
-        createWindow();
-    }
-});

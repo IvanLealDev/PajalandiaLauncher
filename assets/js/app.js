@@ -14,7 +14,10 @@ document.querySelector("#close").addEventListener("click", () => {
 });
 
 // Cuando el usuario hace clic en el botón de Jugar.
-document.getElementById('launchButton').addEventListener('click', () => {
-    ipcRenderer.send('play');
-    console.log("run");
+document.getElementById('launchButton').addEventListener('click', function () {
+    // Deshabilitar el botón y añadir la clase de animación
+    this.classList.add('disabled', 'buttonLoading');
+    this.style.pointerEvents = 'none'; // Deshabilitar futuros clics
+    ipcRenderer.send('prepare-launch');
+    console.log("Preparing to launch...");
 });

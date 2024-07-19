@@ -66,4 +66,4 @@
 - [ ] Intentar almacenar en cache ciertas funciones para acelerar los tiempos de carga
 - [ ] Añadir instrucciones para compilar
 - [ ] Solucionar problemas de seguridad por Electron (Advertencia en los logs de la consola)
-- [ ] Guardar los datos personalizables luego de reiniciar la aplicación
+- [x] Guardar los datos personalizables luego de reiniciar la aplicación
