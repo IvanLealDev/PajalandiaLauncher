@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/app.css" />
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.2/css/all.css">
+    <style>
+        .fa-solid,
+        .fas {
+            font-weight: normal;
+            /* Remueve el peso de la fuente 900 */
+            font-size: 1.2em;
+            /* Ajusta el tamaño de los íconos */
+        }
+    </style>
 </head>
 
 <body>
@@ -20,7 +29,15 @@
         </div>
     </nav>
     <div class="sidepanel left" id="leftSidepanel">
-        <span>Click the button on the side to watch this panel collapse gracefully</span>
+        <div class="profile-container">
+            <div class="avatar">
+                <img src="avatar.png" alt="Avatar">
+            </div>
+            <div class="user-details">
+                <h2>tthomasrh</h2>
+                <button class="logout-button">Disconnect</button>
+            </div>
+        </div>
         <div class="line"></div>
     </div>
     <div class="sidepanel right" id="rightSidepanel">

@@ -2,41 +2,34 @@
 
 * {
   font-family: "Inter";
-  margin: 0;
-  padding: 0;
-  border: 0;
-  vertical-align: baseline;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
-
-html {
   box-sizing: border-box;
 }
 
-html,
 body {
-  height: 100%;
-  margin: 0;
-}
-
-body {
-  background-color: #161616;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 100%), url('../img/bg5.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
   color: #ededed;
   padding: 0;
   margin: 0;
-  overflow-y: hidden;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  transition: background-image 1s ease;
 }
 
 nav {
   height: 35px;
+  width: 100%;
   display: flex;
   align-items: center;
   background: transparent;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 nav>img {
@@ -49,6 +42,7 @@ nav>img {
   font-size: 12px;
   margin-left: 10px;
   -webkit-app-region: drag;
+  color: white;
 }
 
 :not(nav) {
@@ -62,9 +56,10 @@ nav>img {
 }
 
 .nav-buttons>button {
-  transition: background .2s ease;
+  transition: background 0.2s ease;
   background: transparent;
   border: none;
+  border-radius: 0px;
   width: 45px;
   height: 35px;
   margin: 0;
@@ -75,7 +70,7 @@ nav>img {
 }
 
 .nav-buttons>button:hover {
-  transition: .2s ease;
+  transition: 0.2s ease;
   background: rgba(255, 255, 255, 0.1);
   cursor: pointer;
 }
@@ -98,13 +93,6 @@ nav>img {
 
 /* --------------- */
 
-body {
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 100%), url('../img/bg5.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  color: white;
-}
-
 .container {
   display: flex;
   align-items: center;
@@ -124,69 +112,6 @@ body {
   100% {
     opacity: 1;
   }
-}
-
-.server-status {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #1B1D23;
-  padding: 10px 20px;
-  border-radius: 10px;
-  text-align: center;
-  width: 32%;
-  height: 80px;
-  max-width: 600px;
-}
-
-.server-status-icon {
-  height: 90%;
-  width: 13%;
-}
-
-.server-name {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.server-info {
-  padding-right: 10%;
-  padding-left: 10%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
-
-.status {
-  color: rgba(18, 160, 110, 255);
-  padding-top: 5px;
-}
-
-.status-player-count {
-  min-width: 4.5rem;
-  border-radius: 10px;
-  color: white;
-  box-shadow: 0 4px 6px rgba(34, 34, 34, 0.2);
-  font-weight: bold;
-}
-
-.dot {
-  position: absolute;
-  top: 1px;
-  right: 10px;
-  width: 20px;
-  height: 20px;
-  background-color: #00CC66;
-  border-radius: 50%;
-  border: 3px solid #1B1D23;
-}
-
-.player-count {
-  background: #17191d;
-  padding: 12px 10px;
-  border-radius: 5px;
-  font-size: 2rem;
 }
 
 .play-bar {
@@ -216,6 +141,8 @@ body {
 
 .bar {
   background: transparent;
+  padding-top: 14px;
+  padding-bottom: 14px;
   padding-right: 20px;
   padding-left: 20px;
   border-left: 1px solid rgba(255, 255, 255, 0.295);
@@ -241,6 +168,7 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.295);
   border-bottom: 1px solid rgba(255, 255, 255, 0.295);
   border-right: 1px solid rgba(255, 255, 255, 0.295);
+  font-size: 20px;
 }
 
 .text:hover {
@@ -309,17 +237,12 @@ body {
   }
 }
 
-body {
-  margin: 0;
-  padding: 0;
-}
-
 /* ----- Side Panel Config ------ */
 
 .sidepanel {
   position: fixed;
-  height: 100vh;
   width: 30%;
+  height: 30%;
   min-width: 100px;
   z-index: 2;
   font-size: 1.5em;
@@ -334,9 +257,9 @@ body {
 .sidepanel:before {
   content: '';
   position: absolute;
-  height: 100vh;
-  width: 10px;
-  top: 0;
+  width: 100%;
+  height: 10px;
+  bottom: 0;
   z-index: 1;
 }
 
@@ -356,6 +279,7 @@ body {
 }
 
 .left {
+  bottom: 0;
   left: 0;
   transform: translateX(-100%);
   border-top-right-radius: 10px;
@@ -366,14 +290,81 @@ body {
 }
 
 .right {
+  bottom: 0;
   right: 0;
-  left: auto;
   transform: translateX(100%);
   border-top-left-radius: 10px;
 }
 
 .right.show {
   transform: translateX(0);
+}
+
+/* ------ Auth Slider ------- */
+
+.sidepanel {
+  position: fixed;
+  width: 30%;
+  height: 30%;
+  min-width: 100px;
+  z-index: 2;
+  font-size: 1.5em;
+  line-height: 1.5em;
+  color: #f1f1f2;
+  font-family: Helvetica;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  transition: transform 0.5s ease;
+  display: flex; /* Añadido */
+  justify-content: center; /* Añadido */
+  align-items: center; /* Añadido */
+}
+
+.profile-container {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-radius: 10px;
+  color: #fff;
+  position: relative;
+  width: 100%; /* Añadido */
+  justify-content: center; /* Añadido */
+}
+
+.avatar img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.user-details {
+  margin-left: 20px; /* Ajustado para mejor alineación */
+  display: flex; /* Añadido */
+  flex-direction: column; /* Añadido */
+  justify-content: center; /* Añadido */
+  align-items: center; /* Añadido */
+}
+
+.user-details h2 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.logout-button {
+  background-color: #d9534f;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.logout-button:hover {
+  background-color: #c9302c;
 }
 
 /* --shadow-color: #1f2937;
