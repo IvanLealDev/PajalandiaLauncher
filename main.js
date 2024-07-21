@@ -5,6 +5,7 @@ const AdmZip = require('adm-zip');
 const { Auth, lexicon } = require('msmc');
 const { Client } = require('minecraft-launcher-core');
 const fetch = require('node-fetch');
+const os = require('os');
 
 app.whenReady().then(() => createWindow());
 
@@ -12,6 +13,10 @@ const launcher = new Client();
 let loggedInUsername = '';
 let userAuth;
 let mainWindow;
+let ramSettings = {
+    maxRam: '6G',
+    minRam: '1G'
+};
 
 function ShowApp() {
     mainWindow.show();
@@ -162,8 +167,8 @@ ipcMain.on('prepare-launch', async (event) => {
                 custom: "fabric-loader-0.15.11-1.21"
             },
             memory: {
-                max: "6G",
-                min: "1G",
+                max: `${ramSettings.maxRam}G`,
+                min: `${ramSettings.minRam}G`,
             },
             javaPath: path.join(`${app.getPath('appData')}/.minecraft/jdk-21.0.2/bin/javaw.exe`),
         };
@@ -179,8 +184,8 @@ ipcMain.on('prepare-launch', async (event) => {
                 custom: "fabric-loader-0.15.11-1.21"
             },
             memory: {
-                max: "6G",
-                min: "1G",
+                max: `${ramSettings.maxRam}G`,
+                min: `${ramSettings.minRam}G`,
             },
             javaPath: path.join(`${app.getPath('appData')}/.minecraft/jdk-21.0.2/bin/javaw.exe`),
         };
@@ -231,6 +236,18 @@ ipcMain.on("disconnect", () => {
 
     // Redirigir a la página de login
     mainWindow.loadURL(path.join(__dirname, 'assets/html/login.html'));
+});
+
+ipcMain.on('update-ram-settings', (event, { maxRam, minRam }) => {
+    ramSettings.maxRam = maxRam;
+    ramSettings.minRam = minRam;
+    console.log(`RAM settings updated: Max - ${maxRam}G, Min - ${minRam}G`);
+});
+
+ipcMain.on('request-ram-info', (event) => {
+    const totalRam = (os.totalmem() / (1024 ** 3)).toFixed(1);
+    const availableRam = (os.freemem() / (1024 ** 3)).toFixed(1);
+    event.sender.send('update-ram-info', totalRam, availableRam);
 });
 
 app.on("activate", () => {

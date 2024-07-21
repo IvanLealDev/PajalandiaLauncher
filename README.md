@@ -30,7 +30,7 @@
     - [x] Vista App
         - [x] Barra de Maximizar y cerrar
         - [ ] Estilo personalizado
-        - [ ] Animaciones de FadeIn y FadeOut
+        - [x] Animaciones de FadeIn y FadeOut
         - [ ] Programar botones
             - [x] Lanzar el Minecraft, dependiendo si entro con Microsoft o Offline
             - [x] Boton de Configuracion, redirigir a la ventana config
@@ -40,13 +40,13 @@
             - [ ] Boton del Dicord para unirte
         - [ ] Server status
         - [ ] Server count players online
-    - [ ] Vista Config
-        - [ ] Estilo personalizado
-        - [ ] Animaciones de sidepanels
-        - [ ] Opcion para modificar Memory
-            - [ ] Maximum RAM
-            - [ ] Minumum RAM
-        - [ ] Boton para guardar los cambios y volver a la ventana App
+    - [x] Vista Config
+        - [x] Estilo personalizado
+        - [x] Animaciones de sidepanels
+        - [x] Opcion para modificar Memory
+            - [x] Maximum RAM
+            - [x] Minumum RAM
+            - [x] Guardar los cambios automaticamente
     - [x] Vista Player
         - [x] Estilo personalizado
         - [x] Animaciones de sidepanels

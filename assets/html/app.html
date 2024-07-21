@@ -39,20 +39,37 @@
         <div class="line"></div>
     </div>
     <div class="sidepanel right" id="rightSidepanel">
-        <span>Click the button on the side to watch this panel collapse gracefully</span>
-        <div class="line"></div>
+        <div class="ram-settings">
+            <div class="ram-slider">
+                <label class="max-ram" for="max-ram">Maximum RAM</label>
+                <div class="range-container">
+                    <input type="range" id="max-ram" min="1" max="32" value="6" step="1">
+                    <span class="ram-value">6.0G</span>
+                </div>
+            </div>
+            <div class="ram-slider">
+                <label class="min-ram" for="min-ram">Minimum RAM</label>
+                <div class="range-container">
+                    <input type="range" id="min-ram" min="1" max="32" value="1" step="1">
+                    <span class="ram-value">1.0G</span>
+                </div>
+            </div>
+            <div class="ram-info">
+                <p class="ram-total">Total: Calculating...</p>
+                <p class="ram-available">Available: Calculating...</p>
+            </div>
+            <div class="line"></div>
+        </div>
     </div>
-    <div class="container">
-        <div class="play-bar">
-            <div class="bar user glow" onclick="toggleLeftSidePanel()">
-                <i class="fas fa-user"></i>
-            </div>
-            <div class="text glow" id="launchButton">
-                <span class="buttonText">Jugar</span>
-            </div>
-            <div class="bar glow" onclick="toggleRightSidePanel()">
-                <i class="fas fa-cog"></i>
-            </div>
+    <div class="play-bar">
+        <div class="bar user glow" onclick="toggleLeftSidePanel()">
+            <i class="fas fa-user"></i>
+        </div>
+        <div class="text glow" id="launchButton">
+            <span class="buttonText">Jugar</span>
+        </div>
+        <div class="bar glow" onclick="toggleRightSidePanel()">
+            <i class="fas fa-cog"></i>
         </div>
     </div>
     <script src="../js/app.js"></script>

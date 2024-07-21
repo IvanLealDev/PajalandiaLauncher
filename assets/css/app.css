@@ -93,17 +93,6 @@ nav>img {
 
 /* --------------- */
 
-.container {
-  display: flex;
-  align-items: center;
-  margin: 20px;
-  flex-direction: column;
-  animation-name: fadeInOpacity;
-  animation-iteration-count: 1;
-  animation-timing-function: ease-in;
-  animation-duration: 0.5s;
-}
-
 @keyframes fadeInOpacity {
   0% {
     opacity: 0;
@@ -129,6 +118,10 @@ nav>img {
   border-top: 1px solid rgba(255, 255, 255, 0.295);
   border-bottom: 1px solid rgba(255, 255, 255, 0.295);
   border-right: 1px solid rgba(255, 255, 255, 0.295);
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 0.5s;
 }
 
 .bar,
@@ -252,6 +245,8 @@ nav>img {
   text-align: center;
   background: rgba(255, 255, 255, 0.1);
   transition: transform 0.5s ease;
+  justify-content: center;
+  align-items: center;
 }
 
 .sidepanel:before {
@@ -268,7 +263,6 @@ nav>img {
   display: block;
   width: calc(100% - 2em);
   min-width: 100px;
-  padding: 1em;
 }
 
 .line {
@@ -283,6 +277,7 @@ nav>img {
   left: 0;
   transform: translateX(-100%);
   border-top-right-radius: 10px;
+  padding-top: 35px;
 }
 
 .left.show {
@@ -290,6 +285,7 @@ nav>img {
 }
 
 .right {
+  padding-top: 13px;
   bottom: 0;
   right: 0;
   transform: translateX(100%);
@@ -301,24 +297,6 @@ nav>img {
 }
 
 /* ------ Auth Slider ------- */
-
-.sidepanel {
-  position: fixed;
-  width: 30%;
-  height: 30%;
-  min-width: 100px;
-  z-index: 2;
-  font-size: 1.5em;
-  line-height: 1.5em;
-  color: #f1f1f2;
-  font-family: Helvetica;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.1);
-  transition: transform 0.5s ease;
-  justify-content: center;
-  align-items: center;
-  padding-top: 25px;
-}
 
 .profile-container {
   display: flex;
@@ -365,6 +343,74 @@ nav>img {
 
 .logout-button:hover {
   background-color: #c9302c;
+}
+
+/* ----- Slider Config ---- */
+
+.ram-settings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 18px;
+}
+
+.ram-slider {
+  width: 80%;
+  display: flex;
+  flex-direction: column; /* Coloca los elementos en columna */
+  align-items: flex-start; /* Alinea los elementos a la izquierda */
+  margin-bottom: 10px; /* Reduce el margen inferior para menos espacio entre sliders */
+}
+
+.range-container {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.range-container input[type="range"] {
+  flex: 3;
+  margin: 0 10px 0 0; /* Ajusta el margen para menos espacio entre elementos */
+}
+
+.range-container .ram-value {
+  flex: 1;
+  text-align: right;
+}
+
+.ram-slider input[type="range"] {
+  flex: 3;
+  margin: 0 5px; /* Reduce el margen horizontal para menos espacio entre elementos */
+}
+
+.ram-slider .ram-value {
+  flex: 1;
+  text-align: right;
+}
+
+.min-ram {
+  margin-top: 2px;
+}
+
+.ram-info {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin-top: 10px;
+  margin-bottom: 2px;
+}
+
+.ram-info p {
+  margin: 0;
+  color: #c5bebe;
+}
+
+.ram-recommendation {
+  width: 80%;
+  text-align: center;
+  font-size: 0.9em;
+  color: #ccc;
 }
 
 /* --shadow-color: #1f2937;

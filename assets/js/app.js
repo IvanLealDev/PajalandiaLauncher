@@ -35,6 +35,26 @@ document.getElementById('launchButton').addEventListener('click', function () {
     console.log("Preparing to launch...");
 });
 
+// Actualizar los valores de RAM en tiempo real
+const ramSliders = document.querySelectorAll('.ram-slider input[type="range"]');
+ramSliders.forEach(slider => {
+    slider.addEventListener('input', function() {
+        const valueSpan = this.nextElementSibling;
+        valueSpan.textContent = `${this.value}.0G`;
+    });
+
+    slider.addEventListener('change', function() {
+        updateRamSettings();
+    });
+});
+
+// Función para actualizar la configuración de RAM
+function updateRamSettings() {
+    const maxRam = document.getElementById('max-ram').value;
+    const minRam = document.getElementById('min-ram').value;
+    ipcRenderer.send('update-ram-settings', { maxRam, minRam });
+}
+
 // Escuchar el nombre de usuario y la URL del avatar
 ipcRenderer.on('update-user-info', (event, username, avatarUrl) => {
     console.log("Actualizando información del usuario:", username, avatarUrl);
@@ -46,3 +66,12 @@ ipcRenderer.on('update-user-info', (event, username, avatarUrl) => {
 document.querySelector("#disconnect").addEventListener("click", () => {
     ipc.send("disconnect");
 });
+
+// Escuchar y actualizar la información de RAM
+ipcRenderer.on('update-ram-info', (event, totalRam, availableRam) => {
+    document.querySelector('.ram-total').textContent = `Total: ${totalRam}G`;
+    document.querySelector('.ram-available').textContent = `Available: ${availableRam}G`;
+});
+
+// Solicitar la información de RAM al backend
+ipcRenderer.send('request-ram-info');
