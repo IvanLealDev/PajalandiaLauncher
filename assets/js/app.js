@@ -34,3 +34,15 @@ document.getElementById('launchButton').addEventListener('click', function () {
     ipcRenderer.send('prepare-launch');
     console.log("Preparing to launch...");
 });
+
+// Escuchar el nombre de usuario y la URL del avatar
+ipcRenderer.on('update-user-info', (event, username, avatarUrl) => {
+    console.log("Actualizando información del usuario:", username, avatarUrl);
+    document.querySelector('.user-details h2').textContent = username;
+    document.querySelector('.avatar img').src = avatarUrl;
+});
+
+// Manejar el botón de desconexión
+document.querySelector("#disconnect").addEventListener("click", () => {
+    ipc.send("disconnect");
+});

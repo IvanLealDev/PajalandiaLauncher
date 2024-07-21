@@ -42,16 +42,16 @@
         - [ ] Server count players online
     - [ ] Vista Config
         - [ ] Estilo personalizado
-        - [ ] Animaciones de FadeIn y FadeOut
+        - [ ] Animaciones de sidepanels
         - [ ] Opcion para modificar Memory
             - [ ] Maximum RAM
             - [ ] Minumum RAM
         - [ ] Boton para guardar los cambios y volver a la ventana App
-    - [ ] Vista Player
-        - [ ] Estilo personalizado
-        - [ ] Animaciones de FadeIn y FadeOut
-        - [ ] Poder ver la cabeza del nombre del jugador
-        - [ ] Boton para desconectarte de la cuenta y que te rediriga a la ventana de Login
+    - [x] Vista Player
+        - [x] Estilo personalizado
+        - [x] Animaciones de sidepanels
+        - [x] Poder ver la cabeza del nombre del jugador
+        - [x] Boton para desconectarte de la cuenta y que te rediriga a la ventana de Login
 - [x] Añadir soporte para cuentas de Microsoft - Online
 - [x] Añadir soporte para cuentas No Premiun - Offline
     - [x] Solo pueden entrar si su "Username" y "Pass" estan en el codigo

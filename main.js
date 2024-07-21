@@ -4,6 +4,7 @@ const fs = require('fs');
 const AdmZip = require('adm-zip');
 const { Auth, lexicon } = require('msmc');
 const { Client } = require('minecraft-launcher-core');
+const fetch = require('node-fetch');
 
 app.whenReady().then(() => createWindow());
 
@@ -60,8 +61,13 @@ function createWindow() {
                 const t = await e.getMinecraft();
                 console.log(t.mclc());
                 userAuth = t.mclc();
+                loggedInUsername = t.profile.name;
                 event.sender.send('LoginSuccess', userAuth);
                 mainWindow.loadURL(path.join(__dirname, 'assets/html/app.html'));
+
+                mainWindow.webContents.once('dom-ready', () => {
+                    updateUserInfo(loggedInUsername);
+                });
             })
             .catch((e) => {
                 console.log(lexicon.wrapError(e));
@@ -71,7 +77,6 @@ function createWindow() {
 }
 
 async function downloadAndExtract(url, destPath, rootDirNameToRemove = '') {
-    const fetch = await import('node-fetch').then(mod => mod.default);
     const response = await fetch(url);
     const buffer = await response.buffer();
     const zip = new AdmZip(buffer);
@@ -122,7 +127,6 @@ ipcMain.on('prepare-launch', async (event) => {
         fs.mkdirSync(minecraftPath, { recursive: true });
     }
 
-    const fetch = await import('node-fetch').then(mod => mod.default);
     const commitsResponse = await fetch(commitsApiUrl);
     const commitsData = await commitsResponse.json();
     const latestCommitSha = commitsData.sha;
@@ -203,6 +207,10 @@ ipcMain.on('login-attempt', (event, username, password) => {
         loggedInUsername = username;
         event.sender.send('login-response', 'success');
         mainWindow.loadURL(path.join(__dirname, 'assets/html/app.html'));
+
+        mainWindow.webContents.once('dom-ready', () => {
+            updateUserInfo(loggedInUsername);
+        });
     } else {
         event.sender.send('login-response', 'failure');
     }
@@ -214,7 +222,16 @@ ipcMain.on("manualMinimize", () => {
 
 ipcMain.on("manualClose", () => {
     app.quit();
-})
+});
+
+ipcMain.on("disconnect", () => {
+    // Realizar la limpieza de la sesión de usuario
+    userAuth = null;
+    loggedInUsername = '';
+
+    // Redirigir a la página de login
+    mainWindow.loadURL(path.join(__dirname, 'assets/html/login.html'));
+});
 
 app.on("activate", () => {
     if (mainWindow === null) {
@@ -230,4 +247,10 @@ function getUUID(username) {
     const uuid = users[username] || '00000000-0000-0000-0000-000000000000';
     console.log(`UUID for ${username}: ${uuid}`);
     return uuid;
+}
+
+async function updateUserInfo(username) {
+    const avatarUrl = `https://minotar.net/avatar/${username}/50`;
+    console.log(`Enviando información del usuario: ${username}, ${avatarUrl}`);
+    mainWindow.webContents.send('update-user-info', username, avatarUrl);
 }
