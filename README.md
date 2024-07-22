@@ -29,17 +29,24 @@
             - [x] Boton de guardar los datos ingresados
     - [x] Vista App
         - [x] Barra de Maximizar y cerrar
-        - [ ] Estilo personalizado
+        - [x] Estilo personalizado
         - [x] Animaciones de FadeIn y FadeOut
         - [ ] Programar botones
             - [x] Lanzar el Minecraft, dependiendo si entro con Microsoft o Offline
-            - [x] Boton de Configuracion, redirigir a la ventana config
-            - [x] Boton de Usuario, redirigir a la ventana player
+            - [x] Boton de Configuracion, redirigir al slider config
+            - [x] Boton de Usuario, redirigir al Slider player
             - [ ] Boton de Youtobe para ver el trailer
-            - [ ] Boton de Wiki para ver todo el contenido
-            - [ ] Boton del Dicord para unirte
+                - [x] Estilo personalizado
+                - [ ] Link de Trailer
+            - [x] Boton del Dicord para unirte
+                - [x] Estilo personalizado
+                - [x] Invitacion al server
         - [ ] Server status
+            - [x] Estilo personalizado
+            - [ ] Conexion del server en el back-end
         - [ ] Server count players online
+            - [x] Estilo personalizado
+            - [ ] Conexion del server en el back-end
     - [x] Vista Config
         - [x] Estilo personalizado
         - [x] Animaciones de sidepanels

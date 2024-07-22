@@ -1,5 +1,6 @@
 // Importación de módulos.
 const { ipcRenderer } = require('electron');
+const { shell } = require('electron');
 
 // Variables globales
 const ipc = ipcRenderer;
@@ -75,3 +76,12 @@ ipcRenderer.on('update-ram-info', (event, totalRam, availableRam) => {
 
 // Solicitar la información de RAM al backend
 ipcRenderer.send('request-ram-info');
+
+// Interceptar clics en enlaces externos y abrir en navegador predeterminado
+document.querySelectorAll('a.external-link').forEach(link => {
+    link.addEventListener('click', (event) => {
+        event.preventDefault();
+        const url = link.href;
+        shell.openExternal(url);
+    });
+});
