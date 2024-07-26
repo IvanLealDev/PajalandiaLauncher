@@ -1,4 +1,4 @@
-<p align="center"><img src="assets/img/logo.png" width="150px" height="150px" alt="pajalandia-icon"></p>
+<p align="center"><img src="assets/img/logo.png" width="100px" height="150px" alt="pajalandia-icon"></p>
 
 <h1 align="center">Pajalandia Launcher</h1>
 
