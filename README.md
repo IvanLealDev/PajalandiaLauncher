@@ -1,7 +1,6 @@
 <p align="center"><img src="assets/img/logo.png" width="100px" height="150px" alt="pajalandia-icon"></p>
 
 <h1 align="center">Pajalandia Launcher</h1>
----
 
 ## Description
 > This project focuses on developing a custom launcher for Minecraft, designed to offer an optimized and personalized experience for both players using Microsoft accounts (Online) and those who prefer to play offline (Offline).
@@ -11,8 +10,10 @@
 > This project aims to provide a powerful and easy-to-use tool that significantly improves the experience of Minecraft players, giving them full control over setting up and launching their game.
 
 ## App
-![Screenshot 1](https://drive.google.com/file/d/1WOtPCEiqGN3eqzD9lnmU4ojgRuD0jBOh/view)
-![Screenshot 2]()
+![Screenshot 1](https://imgur.com/tZ8Bz4v)
+![Screenshot 2](https://imgur.com/rrdMBzH)
+![Screenshot 3](https://imgur.com/kwuIKMB)
+![Screenshot 4](https://imgur.com/tLkTzxP)
 
 ## Objetives 🗒️
 - [x] Starting Minecraft from the back-end
