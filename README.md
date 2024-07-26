@@ -10,10 +10,10 @@
 > This project aims to provide a powerful and easy-to-use tool that significantly improves the experience of Minecraft players, giving them full control over setting up and launching their game.
 
 ## App
-![Screenshot 1](https://imgur.com/tZ8Bz4v)
-![Screenshot 2](https://imgur.com/rrdMBzH)
-![Screenshot 3](https://imgur.com/kwuIKMB)
-![Screenshot 4](https://imgur.com/tLkTzxP)
+![Screenshot 1](https://imgur.com/tZ8Bz4v.png)
+![Screenshot 2](https://imgur.com/rrdMBzH.png)
+![Screenshot 3](https://imgur.com/kwuIKMB.png)
+![Screenshot 4](https://imgur.com/tLkTzxP.png)
 
 ## Objetives 🗒️
 - [x] Starting Minecraft from the back-end
