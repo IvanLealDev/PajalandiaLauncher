@@ -1,6 +1,6 @@
 {
   "name": "pajalandialauncher",
-  "icon": "assets/images/logo.ico",
+  "icon": "assets/img/logo.ico",
   "version": "1.0.0",
   "description": "Launcher de Minecraft personalizable basado en ElectronJS",
   "main": "main.js",
