@@ -5,7 +5,7 @@
 ## Description
 > This project focuses on developing a custom launcher for Minecraft, designed to offer an optimized and personalized experience for both players using Microsoft accounts (Online) and those who prefer to play offline (Offline).
 
-> This launcher is specifically designed to work with Fabric 1.21 and has been created exclusively for the Minecraft server and project called Pajalandia in its fifth edition. The mod pack and Fabric version are obtained internally from another GitHub repository. It is important to note that the offline login feature is only available to users previously declared in the backend, as it is intended for a specific number of people on a whitelisted server.
+> This launcher is specifically designed to work with Forge 1.20.1 and has been created exclusively for the Minecraft server and project called Pajalandia in its fifth edition. The mod pack and Forge version are obtained internally from another GitHub repository. It is important to note that the offline login feature is only available to users previously declared in the backend, as it is intended for a specific number of people on a whitelisted server.
 
 > This project aims to provide a powerful and easy-to-use tool that significantly improves the experience of Minecraft players, giving them full control over setting up and launching their game.
 
@@ -17,7 +17,7 @@
 
 ## Objetives 🗒️
 - [x] Starting Minecraft from the back-end
-    - [x] Deploy custom version of Fabric
+    - [x] Deploy custom version of Forge
     - [x] Integrate Java
 - [ ] Develop front-end and back-end for each view
     - [x] Splash View
