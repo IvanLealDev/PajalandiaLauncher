@@ -6,6 +6,7 @@ const { Auth, lexicon } = require('msmc');
 const { Client } = require('minecraft-launcher-core');
 const fetch = require('node-fetch');
 const os = require('os');
+const { forge } = require('tomate-loaders');
 
 app.whenReady().then(() => createWindow());
 
@@ -149,49 +150,35 @@ ipcMain.on('prepare-launch', async (event) => {
     }
 
     const username = loggedInUsername;
+    // Obtener configuración de lanzamiento con Forge
+    const launchConfig = await forge.getMCLCLaunchConfig({
+        gameVersion: '1.20.1', // Versión del juego
+        rootPath: minecraftPath,
+    });
+
+    // Configuración adicional
+    launchConfig.memory = {
+        max: `${ramSettings.maxRam}`,
+        min: `${ramSettings.minRam}`,
+    };
+    launchConfig.javaPath = path.join(minecraftPath, 'jdk-21.0.2/bin/javaw.exe');
+
     if (!userAuth) {
         console.warn("User is not authenticated, launching in offline mode");
 
-        let optsOffline = {
-            authorization: {
-                access_token: '',
-                client_token: '',
-                uuid: getUUID(username),
-                name: username,
-                user_properties: '{}'
-            },
-            root: `${app.getPath('appData')}/.minecraft/`,
-            version: {
-                number: "1.21",
-                type: "release",
-                custom: "fabric-loader-0.15.11-1.21"
-            },
-            memory: {
-                max: `${ramSettings.maxRam}G`,
-                min: `${ramSettings.minRam}G`,
-            },
-            javaPath: path.join(`${app.getPath('appData')}/.minecraft/jdk-21.0.2/bin/javaw.exe`),
+        launchConfig.authorization = {
+            access_token: '',
+            client_token: '',
+            uuid: getUUID(username),
+            name: username,
+            user_properties: '{}'
         };
-
-        launcher.launch(optsOffline);
     } else {
-        let opts = {
-            authorization: userAuth,
-            root: `${app.getPath('appData')}/.minecraft/`,
-            version: {
-                number: "1.21",
-                type: "release",
-                custom: "fabric-loader-0.15.11-1.21"
-            },
-            memory: {
-                max: `${ramSettings.maxRam}G`,
-                min: `${ramSettings.minRam}G`,
-            },
-            javaPath: path.join(`${app.getPath('appData')}/.minecraft/jdk-21.0.2/bin/javaw.exe`),
-        };
-
-        launcher.launch(opts);
+        launchConfig.authorization = userAuth;
     }
+
+    // Lanzar Minecraft
+    launcher.launch(launchConfig);
 
     launcher.on('debug', (e) => console.log(e));
     launcher.on('data', (e) => console.log(e));
