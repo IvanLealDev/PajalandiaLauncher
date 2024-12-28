@@ -5,22 +5,36 @@
   "description": "Launcher de Minecraft personalizable basado en ElectronJS",
   "main": "main.js",
   "scripts": {
-    "start": "electronmon ."
+    "start": "electronmon .",
+    "build": "electron-builder"
   },
   "author": "harry",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^31.1.0",
-    "electron-builder": "^24.13.3",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
     "electronmon": "^2.0.3"
   },
   "dependencies": {
     "custom-electron-titlebar": "^4.2.8",
-    "glob": "^10.4.2",
+    "glob": "^11.0.0",
     "izitoast": "^1.4.0",
-    "minecraft-launcher-core": "^3.18.1",
+    "minecraft-launcher-core": "^3.18.2",
     "msmc": "^5.0.5",
     "tomate-loaders": "^2.0.2",
-    "uuid": "^10.0.0"
+    "uuid": "^11.0.3"
+  },
+  "build": {
+    "appId": "com.example.pajalandialauncher",
+    "productName": "Pajalandia Launcher",
+    "win": {
+      "target": "nsis",
+      "icon": "assets/img/logo.png"
+    },
+    "files": [
+      "main.js",
+      "assets/**/*",
+      "package.json"
+    ]
   }
 }

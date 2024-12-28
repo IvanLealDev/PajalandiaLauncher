@@ -124,10 +124,11 @@ function cleanMinecraftFolder(folderPath) {
 ipcMain.on('prepare-launch', async (event) => {
     const appDataPath = app.getPath('appData');
     const minecraftPath = path.join(appDataPath, '.minecraft');
+    const version = '1.20.1';
     const shaFilePath = path.join(minecraftPath, 'last_commit_sha.txt');
     const repoUrl = 'https://github.com/IvanLealDev/Pajalandia-V-Pack-de-Mods/archive/refs/heads/main.zip';
     const commitsApiUrl = 'https://api.github.com/repos/IvanLealDev/Pajalandia-V-Pack-de-Mods/commits/main';
-    const jdkUrl = 'https://download.oracle.com/java/21/archive/jdk-21.0.2_windows-x64_bin.zip';
+    const jdkUrl = 'https://download.oracle.com/java/21/archive/jdk-21.0.4_windows-x64_bin.zip';
 
     if (!fs.existsSync(minecraftPath)) {
         fs.mkdirSync(minecraftPath, { recursive: true });
@@ -152,7 +153,7 @@ ipcMain.on('prepare-launch', async (event) => {
     const username = loggedInUsername;
     // Obtener configuración de lanzamiento con Forge
     const launchConfig = await forge.getMCLCLaunchConfig({
-        gameVersion: '1.20.1', // Versión del juego
+        gameVersion: version, // Versión del juego
         rootPath: minecraftPath,
     });
 
@@ -161,7 +162,7 @@ ipcMain.on('prepare-launch', async (event) => {
         max: `${ramSettings.maxRam}`,
         min: `${ramSettings.minRam}`,
     };
-    launchConfig.javaPath = path.join(minecraftPath, 'jdk-21.0.2/bin/javaw.exe');
+    launchConfig.javaPath = path.join(minecraftPath, 'jdk-21.0.4/bin/javaw.exe');
 
     if (!userAuth) {
         console.warn("User is not authenticated, launching in offline mode");
