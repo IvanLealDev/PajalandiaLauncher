@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const AdmZip = require('adm-zip');
+const simpleGit = require('simple-git');
 const { Auth, lexicon } = require('msmc');
 const { Client } = require('minecraft-launcher-core');
 const fetch = require('node-fetch');
@@ -113,7 +114,7 @@ function cleanMinecraftFolder(folderPath) {
         const filePath = path.join(folderPath, file);
         if (file !== 'options.txt' && file !== 'screenshots') {
             if (fs.lstatSync(filePath).isDirectory()) {
-                fs.rmdirSync(filePath, { recursive: true });
+                fs.rmSync(filePath, { recursive: true, force: true });
             } else {
                 fs.unlinkSync(filePath);
             }
@@ -126,28 +127,62 @@ ipcMain.on('prepare-launch', async (event) => {
     const minecraftPath = path.join(appDataPath, '.minecraft');
     const version = '1.20.1';
     const shaFilePath = path.join(minecraftPath, 'last_commit_sha.txt');
-    const repoUrl = 'https://github.com/IvanLealDev/Pajalandia-V-Pack-de-Mods/archive/refs/heads/main.zip';
+    const repoUrl = 'https://github.com/IvanLealDev/Pajalandia-V-Pack-de-Mods.git';
     const commitsApiUrl = 'https://api.github.com/repos/IvanLealDev/Pajalandia-V-Pack-de-Mods/commits/main';
     const jdkUrl = 'https://download.oracle.com/java/21/archive/jdk-21.0.4_windows-x64_bin.zip';
 
+    // Ensure the Minecraft directory exists
     if (!fs.existsSync(minecraftPath)) {
         fs.mkdirSync(minecraftPath, { recursive: true });
     }
 
+    // Fetch the latest commit SHA from the remote repository
     const commitsResponse = await fetch(commitsApiUrl);
     const commitsData = await commitsResponse.json();
     const latestCommitSha = commitsData.sha;
 
+    // Read the local commit SHA if it exists
     let localCommitSha = null;
     if (fs.existsSync(shaFilePath)) {
         localCommitSha = fs.readFileSync(shaFilePath, 'utf8').trim();
     }
 
+    const git = simpleGit(minecraftPath);
+
+    // Check if the local commit SHA is different from the latest commit SHA
     if (localCommitSha !== latestCommitSha) {
-        cleanMinecraftFolder(minecraftPath);
-        await downloadAndExtract(repoUrl, minecraftPath, 'Pajalandia-V-Pack-de-Mods-main');
+        // Check if the directory is a Git repository
+        const isRepo = await git.checkIsRepo();
+
+        if (isRepo) {
+            // If it's a repo, pull the latest changes
+            try {
+                await git.pull();
+                console.log('Repository updated successfully.');
+            } catch (error) {
+                console.error('Error pulling repository:', error);
+                return; // Exit if pulling fails
+            }
+        } else {
+            // If it's not a repo, clone it
+            try {
+                await git.clone(repoUrl, minecraftPath);
+                console.log('Repository cloned successfully.');
+            } catch (error) {
+                console.error('Error cloning repository:', error);
+                return; // Exit if cloning fails
+            }
+        }
+
+        // After pulling or cloning, ensure that options.txt and screenshots are preserved
+        preserveFiles(minecraftPath);
+
+        // Download JDK
         await downloadAndExtract(jdkUrl, minecraftPath);
+        // Update the local commit SHA file
         fs.writeFileSync(shaFilePath, latestCommitSha);
+    } else {
+        console.log('No updates available. Local repository is up to date.');
     }
 
     const username = loggedInUsername;
@@ -185,11 +220,33 @@ ipcMain.on('prepare-launch', async (event) => {
     launcher.on('data', (e) => console.log(e));
 
     setTimeout(() => {
-        console.log('Cerrando el lanzador después de 10 segundos...');
+        console.log('Cerrando el lanzador después de 1 minuto y 30 segundos...');
         mainWindow.close();
         app.quit();
-    }, 10000);
+    }, 90000);
 });
+
+// Function to preserve specific files and folders
+function preserveFiles(minecraftPath) {
+    const filesToPreserve = ['options.txt'];
+    const foldersToPreserve = ['screenshots'];
+
+    // Check for files to preserve
+    filesToPreserve.forEach(file => {
+        const filePath = path.join(minecraftPath, file);
+        if (fs.existsSync(filePath)) {
+            console.log(`Preserving file: ${filePath}`);
+        }
+    });
+
+    // Check for folders to preserve
+    foldersToPreserve.forEach(folder => {
+        const folderPath = path.join(minecraftPath, folder);
+        if (fs.existsSync(folderPath)) {
+            console.log(`Preserving folder: ${folderPath}`);
+        }
+    });
+}
 
 ipcMain.on('open-login-window', () => {
     mainWindow.loadURL(path.join(__dirname, 'assets/html/loginOff.html'));

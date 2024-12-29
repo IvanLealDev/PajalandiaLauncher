@@ -21,6 +21,7 @@
     "izitoast": "^1.4.0",
     "minecraft-launcher-core": "^3.18.2",
     "msmc": "^5.0.5",
+    "simple-git": "^3.27.0",
     "tomate-loaders": "^2.0.2",
     "uuid": "^11.0.3"
   },

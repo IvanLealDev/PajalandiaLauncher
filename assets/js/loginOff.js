@@ -14,9 +14,9 @@ document.querySelector("#close").addEventListener("click", () => {
 });
 
 // Sistema de Login
-document.getElementById('loginForm').onsubmit = function(event) {
+document.getElementById('loginForm').onsubmit = function (event) {
     event.preventDefault();
-    
+
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     const rememberMe = document.getElementById('rememberMe').checked;
@@ -48,7 +48,7 @@ ipcRenderer.on('login-response', (event, response) => {
 });
 
 // Al cargar la página, verifica si "Remember Me" está activado y llena los campos automáticamente
-window.onload = function() {
+window.onload = function () {
     const rememberMe = localStorage.getItem('rememberMe') === 'true';
     if (rememberMe) {
         document.getElementById('username').value = localStorage.getItem('username');

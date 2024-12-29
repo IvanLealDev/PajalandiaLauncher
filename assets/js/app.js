@@ -39,12 +39,12 @@ document.getElementById('launchButton').addEventListener('click', function () {
 // Actualizar los valores de RAM en tiempo real
 const ramSliders = document.querySelectorAll('.ram-slider input[type="range"]');
 ramSliders.forEach(slider => {
-    slider.addEventListener('input', function() {
+    slider.addEventListener('input', function () {
         const valueSpan = this.nextElementSibling;
         valueSpan.textContent = `${this.value}.0G`;
     });
 
-    slider.addEventListener('change', function() {
+    slider.addEventListener('change', function () {
         updateRamSettings();
     });
 });
