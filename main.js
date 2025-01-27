@@ -253,7 +253,7 @@ ipcMain.on('open-login-window', () => {
 });
 
 ipcMain.on('login-attempt', (event, username, password) => {
-    if ((username === "SDGames" && password === "123") || (username === "FernandezATR" && password === "234")) {
+    if ((username === "SDGames" && password === "IrAuOp") || (username === "FernandezATR" && password === "SJaMTR") || (username === "TangaHD" && password === "Ga7sUi")) {
         loggedInUsername = username;
         event.sender.send('login-response', 'success');
         mainWindow.loadURL(path.join(__dirname, 'assets/html/app.html'));

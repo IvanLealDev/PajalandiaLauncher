@@ -1,7 +1,7 @@
 {
   "name": "pajalandialauncher",
   "icon": "assets/img/logo.ico",
-  "version": "1.0.0",
+  "version": "1.2.1",
   "description": "Launcher de Minecraft personalizable basado en ElectronJS",
   "main": "main.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "author": "harry",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^33.2.1",
+    "electron": "^33.3.1",
     "electron-builder": "^25.1.8",
     "electronmon": "^2.0.3"
   },
@@ -23,7 +23,7 @@
     "msmc": "^5.0.5",
     "simple-git": "^3.27.0",
     "tomate-loaders": "^2.0.2",
-    "uuid": "^11.0.3"
+    "uuid": "^11.0.4"
   },
   "build": {
     "appId": "com.example.pajalandialauncher",
