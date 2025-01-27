@@ -253,7 +253,7 @@ ipcMain.on('open-login-window', () => {
 });
 
 ipcMain.on('login-attempt', (event, username, password) => {
-    if ((username === "SDGames" && password === "IrAuOp") || (username === "FernandezATR" && password === "SJaMTR") || (username === "TangaHD" && password === "Ga7sUi")) {
+    if ((username === "SDGames" && password === "IrAuOp") || (username === "FernandezATR" && password === "SJaMTR") || (username === "TangaHD" && password === "Ga7sUi") || (username === "Tutankamon" && password === "facil")) {
         loggedInUsername = username;
         event.sender.send('login-response', 'success');
         mainWindow.loadURL(path.join(__dirname, 'assets/html/app.html'));
@@ -304,7 +304,9 @@ app.on("activate", () => {
 function getUUID(username) {
     const users = {
         "SDGames": "8bfe6d5b-80ca-4ff9-8c2c-c8fdbb1b872b",
-        "FernandezATR": "987e6543-b21a-32d1-c456-789012345678"
+        "FernandezATR": "987e6543-b21a-32d1-c456-789012345678",
+        "TangaHD": "c0a81a7c-34af-412e-b101-ec16e2133d3c",
+        "Tutankamon": "4fc95d55-2308-4ee2-8a5f-94b2ed98feb8"
     };
     const uuid = users[username] || '00000000-0000-0000-0000-000000000000';
     console.log(`UUID for ${username}: ${uuid}`);
