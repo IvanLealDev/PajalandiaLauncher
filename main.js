@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const AdmZip = require('adm-zip');
-const simpleGit = require('simple-git');
+const { simpleGit, CleanOptions } = require('simple-git');
 const { Auth, lexicon } = require('msmc');
 const { Client } = require('minecraft-launcher-core');
 const fetch = require('node-fetch');
@@ -155,34 +155,43 @@ ipcMain.on('prepare-launch', async (event) => {
         const isRepo = await git.checkIsRepo();
 
         if (isRepo) {
-            // If it's a repo, pull the latest changes
+            // Forzar que la carpeta local sea idéntica a la de 'origin/main'
             try {
-                await git.pull();
-                console.log('Repository updated successfully.');
+                // 1. Trae la info más reciente
+                await git.fetch('origin', 'main');
+
+                // 2. Reset --hard para descartar cambios y apuntar a 'origin/main'
+                await git.reset(['--hard', 'origin/main']);
+
+                // 3. Limpieza forzada de archivos/carpetas no rastreados
+                await git.clean(CleanOptions.FORCE, ['-d']);
+
+                console.log('Repositorio local forzado a coincidir con la rama remota.');
             } catch (error) {
-                console.error('Error pulling repository:', error);
-                return; // Exit if pulling fails
+                console.error('Error forzando el estado del repositorio:', error);
+                return; // Detenemos si falla
             }
         } else {
-            // If it's not a repo, clone it
+            // Si no es repo, clonamos desde cero
             try {
                 await git.clone(repoUrl, minecraftPath);
-                console.log('Repository cloned successfully.');
+                console.log('Repositorio clonado correctamente.');
             } catch (error) {
-                console.error('Error cloning repository:', error);
-                return; // Exit if cloning fails
+                console.error('Error clonando el repositorio:', error);
+                return; // Detenemos si falla
             }
         }
 
-        // After pulling or cloning, ensure that options.txt and screenshots are preserved
+        // Asegurar que se preserven 'options.txt' y 'screenshots' si existían
         preserveFiles(minecraftPath);
 
-        // Download JDK
+        // Descargar e instalar JDK
         await downloadAndExtract(jdkUrl, minecraftPath);
-        // Update the local commit SHA file
+
+        // Actualizar el archivo con el último SHA
         fs.writeFileSync(shaFilePath, latestCommitSha);
     } else {
-        console.log('No updates available. Local repository is up to date.');
+        console.log('No hay actualizaciones disponibles. El repositorio local está al día.');
     }
 
     const username = loggedInUsername;
@@ -253,7 +262,7 @@ ipcMain.on('open-login-window', () => {
 });
 
 ipcMain.on('login-attempt', (event, username, password) => {
-    if ((username === "SDGames" && password === "IrAuOp") || (username === "FernandezATR" && password === "SJaMTR") || (username === "TangaHD" && password === "Ga7sUi") || (username === "Tutankamon" && password === "facil")) {
+    if ((username === "SDGames" && password === "IrAuOp") || (username === "FernandezATR" && password === "SJaMTR") || (username === "TangaHD" && password === "Ga7sUi") || (username === "Tutankamon" && password === "facil") || (username === "ElMosias" && password === "tUDycF")) {
         loggedInUsername = username;
         event.sender.send('login-response', 'success');
         mainWindow.loadURL(path.join(__dirname, 'assets/html/app.html'));
@@ -306,7 +315,8 @@ function getUUID(username) {
         "SDGames": "8bfe6d5b-80ca-4ff9-8c2c-c8fdbb1b872b",
         "FernandezATR": "987e6543-b21a-32d1-c456-789012345678",
         "TangaHD": "c0a81a7c-34af-412e-b101-ec16e2133d3c",
-        "Tutankamon": "4fc95d55-2308-4ee2-8a5f-94b2ed98feb8"
+        "Tutankamon": "4fc95d55-2308-4ee2-8a5f-94b2ed98feb8",
+        "ElMosias": "3aae1b1a-8447-4072-b1e9-1a53cbd097cb"
     };
     const uuid = users[username] || '00000000-0000-0000-0000-000000000000';
     console.log(`UUID for ${username}: ${uuid}`);
