@@ -28,44 +28,24 @@ const launcher = new Client();
 // ===================================================
 // 1) Detección de entorno dev vs prod
 // ===================================================
-/**
- * Retorna `true` si estamos corriendo con 'electronmon', 'nodemon', 
- * o si no está empaquetado (app.isPackaged === false).
- */
 function isDev() {
   return !app.isPackaged;
-  // O, si prefieres:
-  // return process.env.NODE_ENV === 'development' || !app.isPackaged;
 }
 
-/**
- * Retorna la ruta a la carpeta `resources/git-portable` dependiendo
- * de si estamos en desarrollo o en producción.
- */
+/** Retorna la carpeta local `resources/git-portable` en dev,
+ * o `process.resourcesPath/git-portable` en prod. */
 function getGitPortableFolder() {
   if (isDev()) {
-    // MODO DESARROLLO: asumiendo que la carpeta está en 
-    //     ./resources/git-portable
     return path.join(__dirname, 'resources', 'git-portable');
   } else {
-    // MODO PRODUCCIÓN: la carpeta se encontrará en 
-    //     process.resourcesPath/git-portable
-    // cuando electron-builder genere el .exe
     return path.join(process.resourcesPath, 'git-portable');
   }
 }
 
-/**
- * Retorna la ruta de 'git.exe' portable.
- */
 function getGitExePath() {
   return path.join(getGitPortableFolder(), 'cmd', 'git.exe');
 }
 
-/**
- * Retorna la carpeta donde se ubica 'git-lfs.exe' y las DLLs 
- * (ej: libcurl, libcrypto, etc.).
- */
 function getLFSBinFolder() {
   return path.join(getGitPortableFolder(), 'mingw64', 'bin');
 }
@@ -118,7 +98,6 @@ function createWindow() {
       .launch('electron')
       .then(async (e) => {
         const t = await e.getMinecraft();
-        console.log(t.mclc());
         userAuth = t.mclc();
         loggedInUsername = t.profile.name;
         event.sender.send('LoginSuccess', userAuth);
@@ -153,11 +132,9 @@ function runGitCommand(args, cwd) {
     const gitExe = getGitExePath();
     const lfsBinDir = getLFSBinFolder();
 
-    // Extendemos PATH para que Git "vea" git-lfs.exe y las DLLs
     const originalPath = process.env.PATH || '';
     const newPath = `${lfsBinDir}${path.delimiter}${originalPath}`;
 
-    // Opciones para spawn
     const options = {
       env: { 
         ...process.env, 
@@ -170,22 +147,18 @@ function runGitCommand(args, cwd) {
 
     console.log('[runGitCommand]', gitExe, args, '(cwd:', cwd, ')');
 
-    // Chequeo rápido: ¿existe git.exe?
     if (!fs.existsSync(gitExe)) {
-      console.error('ERROR: No existe git.exe en: ', gitExe);
+      console.error('ERROR: No existe git.exe en:', gitExe);
     }
 
     const child = spawn(gitExe, args, options);
 
-    // stdout
     child.stdout.on('data', (data) => {
       console.log(`[git stdout] ${data}`);
     });
-    // stderr
     child.stderr.on('data', (data) => {
       console.error(`[git stderr] ${data}`);
     });
-    // close
     child.on('close', (code) => {
       if (code !== 0) {
         reject(new Error(`Git process exited with code ${code}`));
@@ -197,19 +170,15 @@ function runGitCommand(args, cwd) {
 }
 
 async function cloneRepository(repoUrl, destFolder) {
-  // Aseguramos la carpeta de destino
   if (!fs.existsSync(destFolder)) {
     fs.mkdirSync(destFolder, { recursive: true });
   }
-  // git clone
+  // git clone <repoUrl> <destFolder>
   await runGitCommand(['clone', repoUrl, destFolder]);
 }
 
 async function setupAndPullLFS(destFolder) {
-  // git lfs install --local
   await runGitCommand(['lfs', 'install', '--local'], destFolder);
-
-  // git lfs pull
   await runGitCommand(['lfs', 'pull'], destFolder);
 }
 
@@ -220,12 +189,13 @@ async function downloadAndExtract(url, destPath, rootDirNameToRemove = '') {
   const response = await fetch(url);
   const buffer = await response.buffer();
   const zip = new AdmZip(buffer);
-  const zipEntries = zip.getEntries();
 
+  const zipEntries = zip.getEntries();
   for (const zipEntry of zipEntries) {
     const relativePath = rootDirNameToRemove
       ? zipEntry.entryName.replace(`${rootDirNameToRemove}/`, '')
       : zipEntry.entryName;
+
     const entryPath = path.join(destPath, relativePath);
 
     if (zipEntry.isDirectory) {
@@ -244,6 +214,9 @@ async function downloadAndExtract(url, destPath, rootDirNameToRemove = '') {
   }
 }
 
+/**
+ * Elimina todo excepto `options.txt`, `screenshots`, y `last_commit_sha.txt`.
+ */
 function cleanMinecraftFolderExceptPreserve(folderPath) {
   const preserveFiles = ['options.txt', 'last_commit_sha.txt'];
   const preserveFolders = ['screenshots'];
@@ -271,10 +244,30 @@ async function fetchRemoteSha() {
   return data.sha; 
 }
 
+/**
+ * Copia recursivamente todos los archivos de `src` a `dest`.
+ */
+function copyFolderRecursiveSync(src, dest) {
+  if (!fs.existsSync(dest)) {
+    fs.mkdirSync(dest, { recursive: true });
+  }
+  const entries = fs.readdirSync(src, { withFileTypes: true });
+  for (const entry of entries) {
+    const srcPath = path.join(src, entry.name);
+    const destPath = path.join(dest, entry.name);
+
+    if (entry.isDirectory()) {
+      copyFolderRecursiveSync(srcPath, destPath);
+    } else {
+      fs.copyFileSync(srcPath, destPath);
+    }
+  }
+}
+
 // ===================================================
 // 5) IPC: "prepare-launch" => Clona/actualiza y lanza Minecraft
 // ===================================================
-ipcMain.on('prepare-launch', async (event) => {
+ipcMain.on('prepare-launch', async () => {
   const appDataPath = app.getPath('appData');
   const minecraftPath = path.join(appDataPath, '.minecraft');
   const shaFilePath = path.join(minecraftPath, 'last_commit_sha.txt');
@@ -282,14 +275,14 @@ ipcMain.on('prepare-launch', async (event) => {
   const repoUrl = 'https://github.com/IvanLealDev/Pajalandia-V-Pack-de-Mods.git';
   const jdkUrl = 'https://download.oracle.com/java/21/archive/jdk-21.0.4_windows-x64_bin.zip';
 
-  // Crear .minecraft si no existe
+  // Aseguramos que .minecraft exista
   if (!fs.existsSync(minecraftPath)) {
     fs.mkdirSync(minecraftPath, { recursive: true });
   }
 
   let latestCommitSha;
   try {
-    latestCommitSha = await fetchRemoteSha();
+    latestCommitSha = await fetchRemoteSha(); // SHA remoto
   } catch (error) {
     console.error('Error al obtener el SHA remoto:', error);
     return;
@@ -300,6 +293,8 @@ ipcMain.on('prepare-launch', async (event) => {
     localCommitSha = fs.readFileSync(shaFilePath, 'utf8').trim();
   }
 
+  // 1) Si NO existe last_commit_sha.txt => borrar .minecraft COMPLETO
+  //    clonar en .minecraft (sin preservación)
   if (!localCommitSha) {
     console.log('No existe last_commit_sha.txt. Borrando carpeta .minecraft completa...');
     fs.rmSync(minecraftPath, { recursive: true, force: true });
@@ -308,7 +303,6 @@ ipcMain.on('prepare-launch', async (event) => {
     try {
       await cloneRepository(repoUrl, minecraftPath);
       await setupAndPullLFS(minecraftPath);
-
       await downloadAndExtract(jdkUrl, minecraftPath);
 
       fs.writeFileSync(shaFilePath, latestCommitSha);
@@ -316,25 +310,40 @@ ipcMain.on('prepare-launch', async (event) => {
       console.error('Error en clonación + LFS:', error);
       return;
     }
+
   } else {
+    // 2) Si existe last_commit_sha.txt pero difiere del remoto => 
+    //    Actualizamos manteniendo 'options.txt' y 'screenshots'.
     if (localCommitSha !== latestCommitSha) {
       console.log('SHA local distinto al remoto. Actualizando .minecraft...');
 
-      cleanMinecraftFolderExceptPreserve(minecraftPath);
-
-      // Borramos .git si existe
-      const dotGit = path.join(minecraftPath, '.git');
-      if (fs.existsSync(dotGit)) {
-        fs.rmSync(dotGit, { recursive: true, force: true });
+      // Creamos una carpeta temporal
+      const tempDir = path.join(appDataPath, '.minecraft_temp');
+      if (fs.existsSync(tempDir)) {
+        fs.rmSync(tempDir, { recursive: true, force: true });
       }
+      fs.mkdirSync(tempDir, { recursive: true });
 
       try {
-        await cloneRepository(repoUrl, minecraftPath);
-        await setupAndPullLFS(minecraftPath);
+        // Clonamos + LFS en la carpeta temporal
+        await cloneRepository(repoUrl, tempDir);
+        await setupAndPullLFS(tempDir);
 
-        await downloadAndExtract(jdkUrl, minecraftPath);
+        // Descargar e instalar JDK en la carpeta temporal
+        await downloadAndExtract(jdkUrl, tempDir);
 
+        // Ahora borramos .minecraft excepto los archivos a preservar
+        cleanMinecraftFolderExceptPreserve(minecraftPath);
+
+        // Copiamos todo desde .minecraft_temp a .minecraft
+        copyFolderRecursiveSync(tempDir, minecraftPath);
+
+        // Borramos la carpeta temporal
+        fs.rmSync(tempDir, { recursive: true, force: true });
+
+        // Actualizamos el SHA
         fs.writeFileSync(shaFilePath, latestCommitSha);
+
       } catch (error) {
         console.error('Error al actualizar repositorio con LFS:', error);
         return;
@@ -452,6 +461,7 @@ ipcMain.on('request-ram-info', (event) => {
   event.sender.send('update-ram-info', totalRam, availableRam);
 });
 
+// Auxiliares
 function getUUID(username) {
   const users = {
     "SDGames": "8bfe6d5b-80ca-4ff9-8c2c-c8fdbb1b872b",
@@ -465,9 +475,7 @@ function getUUID(username) {
     "ElNeizi": "0c9ed05c-568a-4e97-9029-3ba762492982",
     "nebadito": "21804e14-1678-49ed-9b82-45391fa3ae28"
   };
-  const uuid = users[username] || '00000000-0000-0000-0000-000000000000';
-  console.log(`UUID for ${username}: ${uuid}`);
-  return uuid;
+  return users[username] || '00000000-0000-0000-0000-000000000000';
 }
 
 function updateUserInfo(username) {
