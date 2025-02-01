@@ -15,4 +15,3 @@ Thumbs.db
 # Otros directorios o archivos que quieras ignorar
 dist/
 build/
-resources/
