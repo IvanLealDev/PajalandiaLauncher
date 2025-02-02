@@ -418,7 +418,12 @@ ipcMain.on('login-attempt', (event, username, password) => {
     { user: "nico1040", pass: "GwWxs9" },
     { user: "Gazpacho", pass: "Db9KiA" },
     { user: "ElNeizi", pass: "qIkF20" },
-    { user: "nebadito", pass: "MXnQpx" }
+    { user: "nebadito", pass: "MXnQpx" },
+    { user: "linkingparka", pass: "EuW3Lm" },
+    { user: "Petter287", pass: "B4avuZ" },
+    { user: "Susumi", pass: "FTAC0R" },
+    { user: "nicolaskc3", pass: "tfNSTj" },
+    { user: "santiagomagno", pass: "d4FSEx" }
   ];
 
   const found = validLogins.some(item => item.user === username && item.pass === password);
@@ -473,7 +478,12 @@ function getUUID(username) {
     "nico1040": "fccd1b49-1ba4-4f5a-a3a1-fecc42198341",
     "Gazpacho": "c6931da6-d25a-464a-abfe-de214fc13f9d",
     "ElNeizi": "0c9ed05c-568a-4e97-9029-3ba762492982",
-    "nebadito": "21804e14-1678-49ed-9b82-45391fa3ae28"
+    "nebadito": "21804e14-1678-49ed-9b82-45391fa3ae28",
+    "linkingparka": "3b1a61db-e03b-4861-8f2a-870a24ba4ee7",
+    "Petter287": "c0bc4c1a-15db-4a17-a69f-2e387e05510f",
+    "Susumi": "15bfee73-69ce-4daf-afd5-2e0fb1728735",
+    "nicolaskc3": "6e187da2-8a9d-47a4-98a2-f8b90a54ad46",
+    "santiagomagno": "b40f239f-0e67-4743-bca4-4e6af91fdc52"
   };
   return users[username] || '00000000-0000-0000-0000-000000000000';
 }
