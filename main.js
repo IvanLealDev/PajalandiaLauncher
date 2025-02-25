@@ -423,7 +423,9 @@ ipcMain.on('login-attempt', (event, username, password) => {
     { user: "Petter287", pass: "B4avuZ" },
     { user: "Susumi", pass: "FTAC0R" },
     { user: "nicolaskc3", pass: "tfNSTj" },
-    { user: "santiagomagno", pass: "d4FSEx" }
+    { user: "santiagomagno", pass: "d4FSEx" },
+    { user: "Elgatoconbolas", pass: "DhPHAZ" },
+    { user: "cucaracha", pass: "vyrfPE" }
   ];
 
   const found = validLogins.some(item => item.user === username && item.pass === password);
@@ -483,7 +485,9 @@ function getUUID(username) {
     "Petter287": "c0bc4c1a-15db-4a17-a69f-2e387e05510f",
     "Susumi": "15bfee73-69ce-4daf-afd5-2e0fb1728735",
     "nicolaskc3": "6e187da2-8a9d-47a4-98a2-f8b90a54ad46",
-    "santiagomagno": "b40f239f-0e67-4743-bca4-4e6af91fdc52"
+    "santiagomagno": "b40f239f-0e67-4743-bca4-4e6af91fdc52",
+    "Elgatoconbolas": "37cb8643-2dfe-488c-ac6c-bb87be535300",
+    "cucaracha": "d40ac0c8-fbf1-4cc9-b9e0-37d875929407"
   };
   return users[username] || '00000000-0000-0000-0000-000000000000';
 }

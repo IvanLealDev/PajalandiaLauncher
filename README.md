@@ -38,10 +38,10 @@
     - [x] App View
         - [x] Maximize and close bar
         - [x] Custom styling and FadeIn and FadeOut animations
-        - [ ] Program buttons for:
+        - [x] Program buttons for:
             - [x] Launch Minecraft using the login method
             - [x] Redirect to settings and user via sliders
-            - [ ] Ver el tráiler en YouTube (falta el enlace del tráiler)
+            - [x] Watch the trailer on YouTube (trailer link missing)
             - [x] Join Discord Server
         - [ ] Mostrar estado del servidor y número de jugadores online (pendiente la conexión al back-end)
     - [x] Config View
